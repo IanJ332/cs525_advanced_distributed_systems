@@ -20,9 +20,6 @@ def get_vm_connection():
         if 1 <= vm_id <= 20:
             target = f"{USER}@{BASE_URL}{vm_id:02d}{DOMAIN}"
             print(f"🚀 Connecting to Node {vm_id:02d} ({target})...")
-            
-            # 使用 os.system 或 subprocess 调起系统原生的 ssh
-            # 这样所有的密码输入提示都会正常显示
             os.system(f"ssh {target}")
         else:
             print("❌ Invalid range. Please enter a number between 1 and 20.")
