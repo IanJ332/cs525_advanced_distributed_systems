@@ -1,0 +1,13 @@
+*.exe
+__debug_bin
+/main
+
+.DS_Store
+Thumbs.db
+
+*.log
+.vscode/
+.ssh/
+config
+experiment_logs/
+scripts/connect.py
