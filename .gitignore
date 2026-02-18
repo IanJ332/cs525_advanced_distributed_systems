@@ -10,4 +10,5 @@ Thumbs.db
 .ssh/
 config
 experiment_logs/
-scripts/connect.py
+.env
+scripts/config.py
