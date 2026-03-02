@@ -34,29 +34,33 @@ def check_reachable(hostname):
         return False
 
 def get_node_status(vm_id):
-    hostname = f"{BASE_URL}{vm_id:02d}{DOMAIN}"
+    if vm_id == 99:
+        hostname = "cc-login.campuscluster.illinois.edu"
+        display_name = "GPU"
+    else:
+        hostname = f"{BASE_URL}{vm_id:02d}{DOMAIN}"
+        display_name = f"{vm_id:02d}"
+        
     target = f"{USER}@{hostname}"
     
     if not check_reachable(hostname):
-        return vm_id, "OFFLINE", "-", "-", "-", "-", "-"
+        return display_name, "OFFLINE", "-", "-", "-", "-", "-", "-", "-", "-"
 
+    # Script remains the same, queries hardware info
     bash_script = """
-cpu_model=$(lscpu | grep "Model name" | cut -d':' -f2 | xargs | awk '{print $1" "$2" "$3}')
 cpu_usage=$(top -bn1 | grep "Cpu(s)" | awk '{print 100 - $8}')
 total_mem=$(free -m | awk 'NR==2{print $2}')
 used_mem=$(free -m | awk 'NR==2{print $3}')
 
 if command -v nvidia-smi >/dev/null 2>&1; then
-    gpu=$(nvidia-smi --query-gpu=name --format=csv,noheader | head -n 1)
+    gpu_data=$(nvidia-smi --query-gpu=name,utilization.gpu,memory.used,memory.total,temperature.gpu --format=csv,noheader,nounits | head -n 1)
 else
-    a10=$(lspci 2>/dev/null | grep -i -E 'a10|nvidia' | cut -d':' -f3 | xargs)
-    if [ ! -z "$a10" ]; then gpu="$a10"; else gpu=$(lspci 2>/dev/null | grep -i -E 'vga|3d|display' | cut -d':' -f3 | xargs | cut -d' ' -f1-3); fi
+    gpu_data="-,0,0,0,0"
 fi
-echo "${cpu_usage}|${cpu_model}|${used_mem}|${total_mem}|${gpu}"
+echo "${cpu_usage}|${used_mem}|${total_mem}|${gpu_data}"
 """
     
-    # Increased ConnectTimeout to 5 seconds
-    ssh_cmd = ["ssh", "-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=no", "-o", "ConnectTimeout=5"]
+    ssh_cmd = ["ssh", "-o", "BatchMode=yes", "-o", "StrictHostKeyChecking=no", "-o", "ConnectTimeout=6"]
     if SSH_KEY_PATH:
         ssh_cmd.extend(["-i", SSH_KEY_PATH])
     ssh_cmd.extend([target, bash_script])
@@ -67,73 +71,83 @@ echo "${cpu_usage}|${cpu_model}|${used_mem}|${total_mem}|${gpu}"
             startupinfo = subprocess.STARTUPINFO()
             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
             
-        # Increased subprocess timeout to 10 seconds
-        result = subprocess.run(ssh_cmd, capture_output=True, text=True, startupinfo=startupinfo, timeout=10)
+        result = subprocess.run(ssh_cmd, capture_output=True, text=True, startupinfo=startupinfo, timeout=12)
         if result.returncode == 0:
             parts = result.stdout.strip().split('|')
-            if len(parts) >= 5:
-                return vm_id, "ONLINE", parts[0], parts[1], parts[2], parts[3], parts[4]
-        return vm_id, "SSH BUSY", "-", "-", "-", "-", "Check Console"
-    except subprocess.TimeoutExpired:
-        return vm_id, "SSH TIMEOUT", "-", "-", "-", "-", "Slow response"
+            if len(parts) >= 4:
+                cpu_u = parts[0]
+                ram_u = parts[1]
+                ram_t = parts[2]
+                g_parts = parts[3].split(',')
+                # g_parts: [name, util, v_used, v_total, temp]
+                return display_name, "ONLINE", cpu_u, ram_u, ram_t, g_parts[0].strip(), g_parts[1].strip(), g_parts[2].strip(), g_parts[3].strip(), g_parts[4].strip()
+        return display_name, "SSH BUSY", "-", "-", "-", "-", "-", "-", "-", "-"
     except Exception:
-        return vm_id, "ERROR", "-", "-", "-", "-", "Unknown"
+        return display_name, "SSH TIMEOUT", "-", "-", "-", "-", "-", "-", "-", "-"
 
-def create_bar(used, total, width=15):
-    if total == 0: return "[" + " "*width + "]"
-    percent = used / total
-    filled = int(round(width * percent))
-    return "[" + ("#" * filled) + ("-" * (width - filled)) + f"] {percent*100:5.1f}%"
+def create_bar(used, total, width=10):
+    try:
+        u, t = float(used), float(total)
+        if t <= 0: return "[" + " "*width + "]  0.0%"
+        percent = u / t
+        filled = int(round(width * percent))
+        return "[" + ("#" * filled) + ("-" * (width - filled)) + f"] {percent*100:5.1f}%"
+    except:
+        return "[" + " "*width + "]  --%"
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def main():
-    print("Starting Live Monitor (Gathering initial data...)")
+    print("Starting Deep GPU/Cluster Live Monitor...")
+    # Standard VMs (1-20) + Special GPU Node (99)
+    monitor_ids = list(range(1, 21)) + [99]
+    
     while True:
         results = []
-        with concurrent.futures.ThreadPoolExecutor(max_workers=20) as executor:
-            future_to_vm = {executor.submit(get_node_status, i): i for i in range(1, 21)}
+        with concurrent.futures.ThreadPoolExecutor(max_workers=21) as executor:
+            future_to_vm = {executor.submit(get_node_status, i): i for i in monitor_ids}
             for future in concurrent.futures.as_completed(future_to_vm):
                 results.append(future.result())
                 
-        results.sort(key=lambda x: x[0])
+        # Sorting logic: Numbers first, then named tags
+        results.sort(key=lambda x: (int(x[0]) if x[0].isdigit() else 999))
         
         clear_screen()
-        print("=== 🚀 UIUC CS525 Cluster Live Monitor 🚀 ===")
-        print(f"{'VM':<4} | {'Status':<10} | {'CPU %':<7} | {'RAM Usage':<35} | {'GPU Info'}")
-        print("-" * 95)
+        print("=== 🚀 UIUC CS525 Deep Resource Monitor 🚀 ===")
+        header = f"{'ID':<3} | {'Status':<11} | {'CPU%':<6} | {'RAM Usage (Used/Total)':<32} | {'GPU Util':<10} | {'VRAM Usage'}"
+        print(header)
+        print("-" * len(header))
         
         for res in results:
-            vm_id, status, cpu_usage, cpu_model, used_mem, total_mem, gpu = res
+            vm_id, status, cpu_u, ram_u, ram_t, g_name, g_util, g_v_u, g_v_t, g_temp = res
             
             if status == "ONLINE":
-                try:
-                    cpu_val = float(cpu_usage)
-                    cpu_str = f"{cpu_val:5.1f}%"
-                except:
-                    cpu_str = str(cpu_usage)[:7]
-                    
-                try:
-                    used_val = float(used_mem)
-                    total_val = float(total_mem)
-                    if total_val == 0: total_val = 1  # prevent div/0
-                    # Standardize sizes to Gigs if large
-                    used_disp = f"{used_val/1024:.1f}G" if used_val > 1024 else f"{int(used_val)}M"
-                    total_disp = f"{total_val/1024:.1f}G" if total_val > 1024 else f"{int(total_val)}M"
-                    
-                    mem_bar = create_bar(used_val, total_val, width=12)
-                    mem_str = f"{used_disp:>5} / {total_disp:<5} {mem_bar}"
-                except:
-                    mem_str = f"{used_mem} / {total_mem}"
-                    
-                print(f"{vm_id:02d}   | ✅ {status:<8} | {cpu_str:<7} | {mem_str:<35} | {gpu}")
+                # CPU / RAM
+                ram_bar = create_bar(ram_u, ram_t, width=10)
+                # GPU Formatting
+                if g_name != "-":
+                    g_util_str = f"{g_util:>3}% {g_temp:>2}C"
+                    vram_bar = create_bar(g_v_u, g_v_t, width=10)
+                else:
+                    g_util_str = "-"
+                    vram_bar = "-"
+
+                print(f"{vm_id:3} | ✅ ONLINE   | {cpu_u:>4}% | {ram_u:>5}M/{ram_t:<5}M {ram_bar} | {g_util_str:<10} | {vram_bar}")
             else:
-                print(f"{vm_id:02d}   | ❌ {status:<8} | {'-':<7} | {'-':<35} | -")
+                color_icon = "❌" if "OFFLINE" in status else "⚠️"
+                print(f"{vm_id:3} | {color_icon} {status:<10} | {'-':<5} | {'-':<32} | {'-':<10} | -")
                 
-        print("-" * 95)
-        print("Press Ctrl+C to exit. Refreshing every 5 seconds...")
+        print("-" * len(header))
+        print(f"Refreshed at {time.strftime('%H:%M:%S')}. Press Ctrl+C to exit.")
         time.sleep(5)
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        clear_screen()
+        print("Exited Live Monitor.")
 
 if __name__ == "__main__":
     try:
