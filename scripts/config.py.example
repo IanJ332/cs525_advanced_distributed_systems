@@ -8,3 +8,6 @@ DOMAIN = ".cs.illinois.edu"
 
 # Optional: Path to your private SSH key if not using the default one
 # SSH_KEY_PATH = "C:/Users/yourname/.ssh/id_rsa"
+
+# Optional: Password for sudo commands (needed for cluster_power.py)
+# PASSWORD = "your_password_here"
