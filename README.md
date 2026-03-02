@@ -16,8 +16,9 @@
 
 
 * **开发工具链**：编写并测试了以下 Python 自动化工具：
-* `ignition.py`：用于全集群状态实时巡检。
-* `connect.py`：用于本地终端一键交互式连接指定节点。
+    * `connect.py`：用于本地终端一键交互式连接指定 VM 节点，并支持一键跳转 Campus Cluster GPU 节点。
+    * `hardware_monitor.py`：全集群硬件信息深度检测（CPU/Cache/RAM/GPU/Storage）。
+    * `live_monitor.py`：全集群资源实时监控大屏（实时刷新 CPU 使用率、内存进度条、在线状态）。
 
 
 
@@ -46,23 +47,35 @@ ssh-keygen -t ed25519
 2. **将你的公钥发送到 VM 01**：
 请在 **Windows PowerShell** 中运行以下命令（注意替换你的公钥路径）：
 ```powershell
-type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh jisheng3@sp26-cs525-0601.cs.illinois.edu "cat >> ~/.ssh/authorized_keys"
+type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh <your-netid>@sp26-cs525-0601.cs.illinois.edu "cat >> ~/.ssh/authorized_keys"
 
 ```
 
 
 
-### 3. 使用自动化脚本连接
+### 3. 使用自动化脚本连接与监控
 
 以后**不需要**再输入冗长的域名，直接在你的本地运行我们的 Python 助手：
 
+#### 🔗 快速连接
 ```powershell
 python .\scripts\connect.py
-
 ```
+* **VM 1-20**: 输入编号即可直连。
+* **GPU 节点**: 输入 `g` 可一键跳转 Campus Cluster 登录机（需 srun 获取 GPU）。
 
-* **操作方式**：运行后输入编号（**1-20**）即可瞬间直连对应服务器。
-* **进阶用法**：成功登录 **VM 01** 后，由于内网已信任，你可以直接从 VM 01 访问其他节点（02-20），无需重复验证。
+#### 📊 实时监控
+```powershell
+python .\scripts\live_monitor.py
+```
+* **实时大屏**: 每 5 秒刷新一次全集群 CPU/RAM/GPU 状态。
+* **异常排查**: 自动区分 `OFFLINE` (断网) 与 `SSH TIMEOUT` (系统卡死)。
+
+#### 🔍 硬件审计
+```powershell
+python .\scripts\hardware_monitor.py
+```
+* **深度检测**: 一键获取全集群机器的 CPU 缓存规格、硬盘剩余空间等详细信息。
 
 根据你之前手动查询的结果，我为你整理了一份详尽的 **VM 硬件规格说明书**。你可以直接将其作为项目文档的一部分，或者放在你的 **Survey Report** 中作为实验环境描述。
 
