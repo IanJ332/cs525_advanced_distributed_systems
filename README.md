@@ -77,6 +77,14 @@ python .\scripts\hardware_monitor.py
 ```
 * **深度检测**: 一键获取全集群机器的 CPU 缓存规格、硬盘剩余空间等详细信息。
 
+#### 🛑 集群电源管理
+```powershell
+python .\scripts\cluster_power.py
+```
+* **全关闭**: 默认模式，给所有 20 台 VM 发送 `sudo poweroff` 指令。
+* **单机关闭**: 运行 `python .\scripts\cluster_power.py 5` 仅关闭 VM 05。
+* **注意**: 该操作为“盲发”指令，无论机器是否响应 Ping 都会尝试发送 SSH 关机信号。
+
 根据你之前手动查询的结果，我为你整理了一份详尽的 **VM 硬件规格说明书**。你可以直接将其作为项目文档的一部分，或者放在你的 **Survey Report** 中作为实验环境描述。
 
 ---
