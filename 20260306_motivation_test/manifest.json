@@ -1,0 +1,19 @@
+{
+    "experiment_id": "20260306_motivation_001",
+    "timestamp": "2026-03-06T12:00:00-08:00",
+    "scenario": "Motivation Test",
+    "input": "ImageNet",
+    "workload": "Constant via Perf Analyzer",
+    "fault_injection": {
+        "type": "CPU Limit",
+        "tool": "stress-ng",
+        "target": "node-gpu-1",
+        "start_time_sec": 60,
+        "end_time_sec": 660,
+        "intensity": "30%-50%"
+    },
+    "metrics": {
+        "primary": "HAProxy %Tt (End-to-End Latency)",
+        "health_check": "HTTP 200 via /metrics or Heartbeat"
+    }
+}

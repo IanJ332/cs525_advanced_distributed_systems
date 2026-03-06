@@ -1,0 +1,15 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'haproxy'
+    static_configs:
+      - targets: 
+        - 'sp26-cs525-0601.cs.illinois.edu:8404'
+        - 'sp26-cs525-0602.cs.illinois.edu:8404'
+
+  - job_name: 'triton'
+    static_configs:
+      - targets: 
+        - 'sp26-cs525-0605.cs.illinois.edu:8002'
+        - 'sp26-cs525-0606.cs.illinois.edu:8002'

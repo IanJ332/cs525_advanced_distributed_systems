@@ -1,0 +1,32 @@
+all:
+  children:
+    ingress:
+      hosts:
+        sp26-cs525-0601.cs.illinois.edu:
+        sp26-cs525-0602.cs.illinois.edu:
+    control:
+      hosts:
+        sp26-cs525-0603.cs.illinois.edu:
+        sp26-cs525-0604.cs.illinois.edu:
+    inference:
+      hosts:
+        sp26-cs525-0605.cs.illinois.edu:
+          gpu_type: A10
+        sp26-cs525-0606.cs.illinois.edu:
+          gpu_type: A10
+    replay_fault:
+      hosts:
+        sp26-cs525-0607.cs.illinois.edu:
+        sp26-cs525-0608.cs.illinois.edu:
+        sp26-cs525-0609.cs.illinois.edu:
+        sp26-cs525-0610.cs.illinois.edu:
+        sp26-cs525-0611.cs.illinois.edu:
+        sp26-cs525-0612.cs.illinois.edu:
+        sp26-cs525-0613.cs.illinois.edu:
+        sp26-cs525-0614.cs.illinois.edu:
+        sp26-cs525-0615.cs.illinois.edu:
+        sp26-cs525-0616.cs.illinois.edu:
+        sp26-cs525-0617.cs.illinois.edu:
+        sp26-cs525-0618.cs.illinois.edu:
+        sp26-cs525-0619.cs.illinois.edu:
+        sp26-cs525-0620.cs.illinois.edu:
