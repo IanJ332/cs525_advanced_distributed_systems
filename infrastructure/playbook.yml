@@ -1,24 +1,27 @@
 ---
-- name: GrayPulse Infrastructure Deployment
+- name: GrayPulse Infrastructure Deployment (RHEL/Dnf Optimized)
   hosts: all
   become: yes
   tasks:
-    - name: Ensure Chrony is installed for absolute time sync
-      apt:
-        name: chrony
+    - name: Ensure base packages are installed
+      dnf:
+        name: 
+          - chrony
+          - curl
+          - socat
         state: present
+        update_cache: yes
 
     - name: Configure Chrony
       copy:
-        dest: /etc/chrony/chrony.conf
+        dest: /etc/chrony.conf
         content: |
           pool pool.ntp.org iburst
-          driftfile /var/lib/chrony/chrony.drift
+          driftfile /var/lib/chrony/drift
           makestep 1.0 3
           rtcsync
           log tracking measurements statistics
           logdir /var/log/chrony
-          log change 0.1
       notify: Restart Chrony
 
     - name: Output Time Sync Passed Signal
@@ -26,26 +29,37 @@
         msg: "时间同步通过 / Time Sync Passed"
         
     - name: Freeze Kernel parameters
-      script: infrastructure/freeze_sysctl.sh
+      script: freeze_sysctl.sh
 
   handlers:
     - name: Restart Chrony
       service:
-        name: chrony
+        name: chronyd
         state: restarted
 
 - name: Deploy Ingress Layer (HAProxy)
   hosts: ingress
   become: yes
   tasks:
+    - name: Ensure HAProxy is installed
+      dnf:
+        name: haproxy
+        state: present
     - name: Ensure HAProxy directory exists
       file:
         path: /etc/haproxy
         state: directory
     - name: Copy HAProxy Configuration
       copy:
-        src: infrastructure/haproxy.cfg
+        src: haproxy.cfg
         dest: /etc/haproxy/haproxy.cfg
+      notify: Restart HAProxy
+      
+  handlers:
+    - name: Restart HAProxy
+      service:
+        name: haproxy
+        state: restarted
 
 - name: Deploy Control Layer (Prometheus/Grafana)
   hosts: control
@@ -57,18 +71,31 @@
         state: directory
     - name: Copy Prometheus Configuration
       copy:
-        src: infrastructure/prometheus.yml
+        src: prometheus.yml
         dest: /etc/prometheus/prometheus.yml
 
-- name: Deploy Inference Layer (Triton)
+- name: Deploy Inference Layer (Triton and Docker)
   hosts: inference
   become: yes
   tasks:
+    - name: Ensure Docker and docker-compose are installed
+      dnf:
+        name: 
+          - docker
+          - docker-compose
+        state: present
+      ignore_errors: yes # Sometimes docker name varies or needs repo
+
     - name: Ensure Triton directory exists
       file:
         path: /opt/triton
         state: directory
     - name: Copy Triton Docker Compose Service
       copy:
-        src: infrastructure/triton_service.yml
+        src: triton_service.yml
         dest: /opt/triton/docker-compose.yml
+    
+    - name: Start Triton Inference Server via Docker Compose
+      command: docker-compose up -d
+      args:
+        chdir: /opt/triton

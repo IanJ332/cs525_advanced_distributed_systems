@@ -1,0 +1,6 @@
+Baseline,Detection Delay,Overhead,Supports Root Cause Localization,Performance under Gray Failure
+Heartbeat + Timeout,Very High (or Never),Low (Network UDP),No,Fails (Blindly routs traffic despite P99 spike)
+Hedging (对冲请求),Low (Implicit Toleration),Very High (CPU/Network),No,Mitigates latency but causes cascading resource exhaustion
+Service Mesh (Envoy),High (Depends on 5xx Errors),Medium (Sidecar IPC),No,Fails (HTTP 200 returned causing blind spot)
+GPU-Metrics,High (Decoupled),Low (Nvidia-SMI script),Yes (Hardware Bottleneck),Fails (Misses Queue Depth/Network stack degradations)
+GrayPulse (Our Approach),Low (Sub-second with Z-score),Low (Out-of-band Fast Path),Yes (via statistical mapping),Succeeds (Accurately soft-drains mitigating impact)
