@@ -1,12 +1,12 @@
 # GrayPulse Project Roadmap
 
-## Phase 1: Foundation (W1)
+## Phase 1: Foundation (W1) [DONE]
 - [x] **Environment Bring-up**: VM inventory (20 nodes), Ansible infrastructure automation.
 - [x] **Version Freezing**: Container Image Digest records and Kernel parameters locking.
 - [x] **Model Deployment**: Triton setup on GPU nodes with ResNet50 and BERT.
 - [x] **Motivation Experiment**: Differential observability data collection and 1s resolution logs.
 
-## Phase 2: Detection (W2)
+## Phase 2: Detection (W2) [ACTIVE]
 - [ ] **Anomaly Detection**: Implement $Z$-score based detector for P99/Queue Depth anomalies.
 - [ ] **Data Pipeline**: Real-time log streaming from HAProxy to Prometheus.
 
