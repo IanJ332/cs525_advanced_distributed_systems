@@ -11,3 +11,4 @@ DOMAIN = ".cs.illinois.edu"
 
 # Optional: Password for sudo commands (needed for cluster_power.py)
 # PASSWORD = "JJSNewPass2025!!"
+
