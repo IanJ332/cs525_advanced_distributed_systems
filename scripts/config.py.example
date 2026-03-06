@@ -2,7 +2,7 @@
 # Copy this file to 'config.py' and fill in your details.
 # DO NOT commit 'config.py' to Git.
 
-USER = "your_netid"
+USER = "jisheng3"
 BASE_URL = "sp26-cs525-06"
 DOMAIN = ".cs.illinois.edu"
 
@@ -10,4 +10,4 @@ DOMAIN = ".cs.illinois.edu"
 # SSH_KEY_PATH = "C:/Users/yourname/.ssh/id_rsa"
 
 # Optional: Password for sudo commands (needed for cluster_power.py)
-# PASSWORD = "your_password_here"
+# PASSWORD = "JJSNewPass2025!!"

@@ -1,0 +1,74 @@
+---
+- name: GrayPulse Infrastructure Deployment
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure Chrony is installed for absolute time sync
+      apt:
+        name: chrony
+        state: present
+
+    - name: Configure Chrony
+      copy:
+        dest: /etc/chrony/chrony.conf
+        content: |
+          pool pool.ntp.org iburst
+          driftfile /var/lib/chrony/chrony.drift
+          makestep 1.0 3
+          rtcsync
+          log tracking measurements statistics
+          logdir /var/log/chrony
+          log change 0.1
+      notify: Restart Chrony
+
+    - name: Output Time Sync Passed Signal
+      debug:
+        msg: "时间同步通过 / Time Sync Passed"
+        
+    - name: Freeze Kernel parameters
+      script: infrastructure/freeze_sysctl.sh
+
+  handlers:
+    - name: Restart Chrony
+      service:
+        name: chrony
+        state: restarted
+
+- name: Deploy Ingress Layer (HAProxy)
+  hosts: ingress
+  become: yes
+  tasks:
+    - name: Ensure HAProxy directory exists
+      file:
+        path: /etc/haproxy
+        state: directory
+    - name: Copy HAProxy Configuration
+      copy:
+        src: infrastructure/haproxy.cfg
+        dest: /etc/haproxy/haproxy.cfg
+
+- name: Deploy Control Layer (Prometheus/Grafana)
+  hosts: control
+  become: yes
+  tasks:
+    - name: Ensure Prometheus directory exists
+      file:
+        path: /etc/prometheus
+        state: directory
+    - name: Copy Prometheus Configuration
+      copy:
+        src: infrastructure/prometheus.yml
+        dest: /etc/prometheus/prometheus.yml
+
+- name: Deploy Inference Layer (Triton)
+  hosts: inference
+  become: yes
+  tasks:
+    - name: Ensure Triton directory exists
+      file:
+        path: /opt/triton
+        state: directory
+    - name: Copy Triton Docker Compose Service
+      copy:
+        src: infrastructure/triton_service.yml
+        dest: /opt/triton/docker-compose.yml
