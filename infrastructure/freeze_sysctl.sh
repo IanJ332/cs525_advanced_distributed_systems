@@ -1,5 +1,4 @@
-#!/bin/bash
-# 固化内核与系统参数 / Script to freeze Kernel and Sysctl parameters
+# Script to freeze Kernel and Sysctl parameters
 CONFIG_FILE="/etc/sysctl.d/99-cs525-graypulse.conf"
 
 cat <<EOF > $CONFIG_FILE
@@ -12,4 +11,4 @@ kernel.pid_max = 655360
 EOF
 
 sysctl -p $CONFIG_FILE
-echo "系统参数已通过 $CONFIG_FILE 固化并生效。"
+echo "System parameters have been frozen and applied via $CONFIG_FILE."
