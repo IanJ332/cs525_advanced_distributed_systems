@@ -4,7 +4,7 @@ import threading
 import numpy as np
 import concurrent.futures
 
-HAPROXY_URL = "http://sp26-cs525-0601.cs.illinois.edu:80/v2/health/ready"
+HAPROXY_URL = "http://sp26-cs525-0601.cs.illinois.edu:80/v2/models/resnet50/infer"
 
 def single_request():
     start = time.time()
