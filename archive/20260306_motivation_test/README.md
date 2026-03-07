@@ -82,11 +82,6 @@ Based on previous manual query results, I have compiled a detailed **VM Hardware
 
 # 🖥️ Cluster Node Specifications (sp26-cs525-06xx)
 
-本集群由 20 台配置完全一致的虚拟机组成，运行于 UIUC Engr-IT 的 VMware 虚拟化平台。
-
-## 1. 核心硬件参数 (Hardware Specs)
-
-| 维度 | 详细规格 (Detailed Specifications) |
 This cluster consists of 20 identically configured virtual machines, running on UIUC Engr-IT's VMware virtualization platform.
 
 ## 1. Core Hardware Parameters (Hardware Specs)

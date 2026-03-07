@@ -36,4 +36,4 @@ with open(output_file, 'w', newline='') as f:
                 
         writer.writerow([t, current_time, round(p99, 1), 1, qd])
 
-print(f"✅ Generated 1s resolution data (1200 rows) at {output_file}")
+print(f"Generated 1s resolution data (1200 rows) at {output_file}")

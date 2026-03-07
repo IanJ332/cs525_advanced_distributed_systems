@@ -26,7 +26,7 @@
 
     - name: Output Time Sync Passed Signal
       debug:
-        msg: "时间同步通过 / Time Sync Passed"
+        msg: "Time Sync Passed"
         
     - name: Freeze Kernel parameters
       script: freeze_sysctl.sh
