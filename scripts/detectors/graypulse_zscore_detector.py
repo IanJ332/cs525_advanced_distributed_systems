@@ -5,7 +5,7 @@ import subprocess
 import numpy as np
 
 # Configuration
-HAPROXY_STATS_URL = "http://sp26-cs525-0601.cs.illinois.edu:8404/;csv"
+HAPROXY_STATS_URL = "http://sp26-cs525-0601.cs.illinois.edu:8404/metrics;csv"
 HAPROXY_HOST = "sp26-cs525-0601.cs.illinois.edu"
 SSH_USER = "jisheng3"
 SSH_KEY_PATH = "/Users/ian/.ssh/id_ed25519"
