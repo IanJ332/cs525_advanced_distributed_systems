@@ -78,11 +78,12 @@
   hosts: inference
   become: yes
   tasks:
-    - name: Ensure Docker and docker-compose are installed
+    - name: Ensure Podman and podman-compose are installed
       dnf:
         name: 
-          - docker
-          - docker-compose
+          - podman
+          - podman-compose
+          - podman-docker
         state: present
       ignore_errors: yes # Sometimes docker name varies or needs repo
 
@@ -95,7 +96,7 @@
         src: triton_service.yml
         dest: /opt/triton/docker-compose.yml
     
-    - name: Start Triton Inference Server via Docker Compose
-      command: docker-compose up -d
+    - name: Start Triton Inference Server via Podman Compose
+      command: podman-compose up -d
       args:
         chdir: /opt/triton
