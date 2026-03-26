@@ -20,6 +20,12 @@ This document is intended to help team members quickly configure the experimenta
 
 ---
 
+## 📂 Experiment Documentation
+
+- **W2 Network Fault Injection (GrayPulse Evaluation)**: [W2 Network Test Protocol](archive/W2_network_test/README.md)
+
+---
+
 ## 👥 What do teammates need to do? (Action Items)
 
 To achieve "instant connection" to 20 machines like me, please follow these three steps:
