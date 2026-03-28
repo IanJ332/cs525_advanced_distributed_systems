@@ -1,0 +1,30 @@
+global
+    log /dev/log local0
+    maxconn 4096
+    daemon
+
+defaults
+    log global
+    mode http
+    option httplog
+    option dontlognull
+    # 【关键口径】%Ta: 客户端连接时间, %Tt: 端到端总延迟 (包含排队和推理)
+    log-format "%ci:%cp [%tr] %ft %b/%s %TR/%Tw/%Tc/%Tr/%Ta %ST %B %CC %CS %tsc %ac/%fc/%bc/%sc/%rc %sq/%bq %hr %hs %{+Q}r"
+    timeout connect 5s
+    timeout client  30s
+    timeout server  30s
+
+frontend dnn_ingress
+    bind *:80
+    default_backend triton_gpus
+
+backend triton_gpus
+    balance roundrobin
+    # 【基线1: Heartbeat】每2秒检查一次 /v2/health/ready，3次失败摘流，2次成功恢复
+    option httpchk GET /v2/health/ready
+    http-check expect status 200
+
+    # 动态渲染 gpu_inference 组内的所有节点
+    {% for host in groups['gpu_inference'] %}
+    server gpu_node_{{ loop.index }} {{ hostvars[host]['ansible_host'] | default(host) }}:8000 check inter 2s fall 3 rise 2
+    {% endfor %}

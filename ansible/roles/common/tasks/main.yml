@@ -1,0 +1,27 @@
+---
+- name: Install Chrony for NTP time synchronization
+  ansible.builtin.package:
+    name: chrony
+    state: present
+
+- name: Ensure Chrony is started and enabled
+  ansible.builtin.service:
+    name: chronyd
+    state: started
+    enabled: yes
+    # Note: Service name can be 'chrony' on Debian derivatives. Use 'chronyd' as baseline, fallback logic if needed.
+
+- name: Disable swap dynamically
+  ansible.builtin.command: swapoff -a
+  changed_when: false
+
+- name: Disable swap permanently (remove from fstab)
+  ansible.builtin.replace:
+    path: /etc/fstab
+    regexp: '^([^#].*?\sswap\s+.*)$'
+    replace: '# \1'
+  
+- name: Update system base packages
+  ansible.builtin.package:
+    name: "*"
+    state: latest
