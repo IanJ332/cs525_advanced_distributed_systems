@@ -1,0 +1,19 @@
+---
+- name: Install HAProxy with specific version
+  ansible.builtin.package:
+    name: haproxy={{ haproxy_version }}*
+    state: present
+
+- name: Prepare HAProxy custom configuration (placeholder)
+  ansible.builtin.template:
+    src: haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+  notify: Restart HAProxy
+  ignore_errors: true
+  # Reserved logic for replacing the configuration file. Ensure haproxy.cfg.j2 is populated later.
+
+- name: Ensure HAProxy service is started
+  ansible.builtin.service:
+    name: haproxy
+    state: started
+    enabled: yes

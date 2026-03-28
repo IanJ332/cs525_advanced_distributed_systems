@@ -1,0 +1,4 @@
+---
+haproxy_version: "2.6"
+triton_image: "nvcr.io/nvidia/tritonserver:24.05-py3"
+prometheus_version: "latest"

@@ -1,0 +1,14 @@
+---
+- name: Run Triton Inference Server via Docker
+  ansible.builtin.command: >
+    docker run -d --rm
+    --name triton_server
+    --gpus all
+    -p 8000:8000
+    -p 8001:8001
+    -p 8002:8002
+    {{ triton_image }}
+    tritonserver --model-repository=/models
+  register: triton_result
+  changed_when: "'triton_server' not in triton_result.stdout"
+  # This uses raw docker command per requirements for --gpus all and minimal scripts instead of complex collections.

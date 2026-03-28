@@ -1,0 +1,18 @@
+---
+- name: Time Sync Precheck & Environment Setup
+  hosts: all
+  become: yes
+  roles:
+    - common
+
+- name: Initialize Ingress Servers
+  hosts: ingress
+  become: yes
+  roles:
+    - ingress
+
+- name: Initialize GPU Inference Cluster
+  hosts: gpu_inference
+  become: yes
+  roles:
+    - gpu_inference
