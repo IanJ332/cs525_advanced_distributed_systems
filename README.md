@@ -20,11 +20,28 @@ This document is intended to help team members quickly configure the experimenta
 
 ---
 
-## 📂 Experiment Documentation
+## 📂 Repository Structure & Experiment Data
+
+This repository contains both our automation scripts and the collected experimental data. All raw and processed data have been organized into the `/data` directory to keep the root clean:
+
+### `/data/` Directory Breakdown
+
+1. **`chaos_experiment/`** (HAProxy + Triton Injection Test)
+   - `latency_results.csv`: Client-side inference request latency logs (Timestamp, Latency_ms, HTTP Status) recorded during the 60s load test.
+   - `haproxy_status.csv`: Server-side HAProxy backend health probe logs recorded concurrently. Shows the "blind spot" during gray failures.
+   - `experiment_results.tar.gz`: The original packed output from the automated experiment run.
+
+2. **`cluster_logs/`** (Infrastructure Sweeps)
+   - Contains general cluster connectivity logs, hardware scan texts, and final result summaries (`cluster_test_results.txt`, `gpu_scan_results.txt`, etc.).
+
+3. **`metrics/`** (Anomaly Detection)
+   - `zscore_network_metrics.csv`: Network dataset containing the metrics used for Z-Score anomaly detection.
+   - `summary_table.csv`: Statistical summaries of the detection models.
+
+4. **`figures/`** (Visualizations)
+   - Contains all generated plots (PNG/JPG) used in our midterm and final reports. These were extracted from the root into this unified folder.
 
 - **W2 Network Fault Injection (GrayPulse Evaluation)**: [W2 Network Test Protocol](archive/W2_network_test/README.md)
-
----
 
 ## 👥 What do teammates need to do? (Action Items)
 
