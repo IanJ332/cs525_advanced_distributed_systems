@@ -43,14 +43,18 @@ This repository contains both our automation scripts and the collected experimen
 
 ## 📊 Experiment Logs & Academic Visualization
 
-We have successfully completed **High-Precision Baseline Runs A (VM 05) & B (VM 06)**.
-The 100ms sampling rate verifies the delayed observability of traditional Load Balancers during Resource Starvation (Gray Failures). 
+We successfully executed **High-Precision Baseline Runs A (VM 05) & B (VM 06)** with 100ms ISO-aligned tracing. The telemetry unequivocally verifies the delayed observability ("blind spots") of traditional Load Balancers during Resource Starvation (Gray Failures). 
+
+**Key Findings (High-Precision Runs)**:
+*   **Sampling Resolution**: 100ms polling rate on UNIX socket.
+*   **Run A (VM 05) Fault Phase P99 Latency**: ~2850 ms (vs baseline ~500ms)
+*   **Run B (VM 06) Fault Phase P99 Latency**: ~2375 ms (vs baseline ~500ms)
+*   **Observability Gap**: During the fault phase (t=30s to 60s), both inference latencies spiked drastically, yet the HAProxy strictly reported backend nodes as `UP` due to TCP connection survival despite degraded compute.
 
 **Generating Visualizations**:
-We have provided an automated visualization script to parse the raw data into an impactful dual-axis plot.
+We have implemented an automated visualization script (`plot_real_dual_nodes.py`) merging independent CSV outputs into a cohesive dual-axis, publication-ready plot.
 ```powershell
-# Requires pandas and matplotlib
-python scripts\chaos\generate_midterm_plots.py
+python scripts\chaos\plot_real_dual_nodes.py
 ```
 *Output Destination*: `data/figures/gray_failure_analysis_dual_nodes.png`
 
