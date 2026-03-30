@@ -55,19 +55,20 @@ def plot_real_dual_nodes():
         ax.set_xlabel('Time (seconds)')
         ax.set_ylabel('P99 Latency (ms)', color=color_lat, fontweight='bold')
         ax.tick_params(axis='y', labelcolor=color_lat)
-        ax.set_ylim(bottom=0)
+        ax.set_ylim(bottom=0, top=df_lat['p99_latency'].max() * 1.3) # 增加顶部空间
         
         # 绘制 HAProxy 状态曲线 (右轴) - 改用阶梯曲线 (Step) 更符合状态监控的实际
         ax_stat = ax.twinx()
         ax_stat.step(df_stat['timestamp'], df_stat['status'], color=color_stat, linestyle='--', linewidth=2, label='HAProxy Status', where='post')
         ax_stat.set_ylabel('Status (1=UP, 0=DOWN)', color=color_stat, fontweight='bold')
         ax_stat.tick_params(axis='y', labelcolor=color_stat)
-        ax_stat.set_ylim(-0.1, 1.1)
+        ax_stat.set_ylim(-0.2, 1.5) # 提高上限，将 Status 1.0 的线向上推，避开文字
         ax_stat.set_yticks([0, 1])
         
         # 标注故障注入区 (实际时间为 30s 到 60s)
         ax.axvspan(30, 60, color='gray', alpha=0.2, label='Gray Failure Zone (stress-ng)')
-        ax.text(45, ax.get_ylim()[1] * 0.8, 'Differential\nObservability', ha='center', color='dimgray', fontweight='bold', fontsize=12)
+        # 将文字垂直位置下调到 65% 处，避开上方的线条
+        ax.text(45, ax.get_ylim()[1] * 0.65, 'Differential\nObservability', ha='center', color='dimgray', fontweight='bold', fontsize=12)
         
         ax.set_title(title, fontweight='bold')
         ax.grid(True, linestyle=':', alpha=0.6)
