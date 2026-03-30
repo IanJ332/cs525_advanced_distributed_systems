@@ -1,0 +1,37 @@
+=== Distributed System Cluster Connectivity & GPU Test ===
+User: jisheng3
+Starting connectivity check for nodes 01-20 using FQDNs...
+
+Hostname                            | Status
+--------------------------------------------------
+sp26-cs525-0601.cs.illinois.edu     | ONLINE
+sp26-cs525-0602.cs.illinois.edu     | ONLINE
+sp26-cs525-0603.cs.illinois.edu     | ONLINE
+sp26-cs525-0604.cs.illinois.edu     | OFFLINE
+sp26-cs525-0605.cs.illinois.edu     | ONLINE
+sp26-cs525-0606.cs.illinois.edu     | ONLINE
+sp26-cs525-0607.cs.illinois.edu     | ONLINE
+sp26-cs525-0608.cs.illinois.edu     | ONLINE
+sp26-cs525-0609.cs.illinois.edu     | ONLINE
+sp26-cs525-0610.cs.illinois.edu     | OFFLINE
+sp26-cs525-0611.cs.illinois.edu     | OFFLINE
+sp26-cs525-0612.cs.illinois.edu     | ONLINE
+sp26-cs525-0613.cs.illinois.edu     | ONLINE
+sp26-cs525-0614.cs.illinois.edu     | ONLINE
+sp26-cs525-0615.cs.illinois.edu     | ONLINE
+sp26-cs525-0616.cs.illinois.edu     | OFFLINE
+sp26-cs525-0617.cs.illinois.edu     | ONLINE
+sp26-cs525-0618.cs.illinois.edu     | ONLINE
+sp26-cs525-0619.cs.illinois.edu     | ONLINE
+sp26-cs525-0620.cs.illinois.edu     | OFFLINE
+--------------------------------------------------
+Total Online: 15/20
+
+Checking GPU connectivity on nodes 05 and 06 specifically...
+============================================================
+Node sp26-cs525-0605.cs.illinois.edu
+GPU DETECTED: Hardware detected via lspci: 00:0f.0 VGA compatible controller: VMware SVGA II Adapter (Drivers might be missing)
+============================================================
+Node sp26-cs525-0606.cs.illinois.edu
+GPU DETECTED: Hardware detected via lspci: 00:0f.0 VGA compatible controller: VMware SVGA II Adapter (Drivers might be missing)
+============================================================
