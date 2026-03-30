@@ -27,9 +27,9 @@ This repository contains both our automation scripts and the collected experimen
 ### `/data/` Directory Breakdown
 
 1. **`chaos_experiment/`** (HAProxy + Triton Injection Test)
-   - `latency_results.csv`: Client-side inference request latency logs (Timestamp, Latency_ms, HTTP Status) recorded during the 60s load test.
-   - `haproxy_status.csv`: Server-side HAProxy backend health probe logs recorded concurrently. Shows the "blind spot" during gray failures.
-   - `experiment_results.tar.gz`: The original packed output from the automated experiment run.
+   - `matrix_test_05_runA.tar.gz` / `matrix_test_06_runB.tar.gz`: The exact packed results from High-Precision Baseline testing.
+   - `latency_results_{vm}_{run}.csv`: Client-side inference request latency logs. Time synced to ISO-8601 Ms precision.
+   - `haproxy_status_{vm}_{run}.csv`: Server-side HAProxy backend health probe logs recorded at 100ms precision. Shows the extreme "blind spot" during gray failures.
 
 2. **`cluster_logs/`** (Infrastructure Sweeps)
    - Contains general cluster connectivity logs, hardware scan texts, and final result summaries (`cluster_test_results.txt`, `gpu_scan_results.txt`, etc.).
@@ -39,7 +39,20 @@ This repository contains both our automation scripts and the collected experimen
    - `summary_table.csv`: Statistical summaries of the detection models.
 
 4. **`figures/`** (Visualizations)
-   - Contains all generated plots (PNG/JPG) used in our midterm and final reports. These were extracted from the root into this unified folder.
+   - Contains all generated plots (PNG/JPG) used in our midterm and final reports. 
+
+## 📊 Experiment Logs & Academic Visualization
+
+We have successfully completed **High-Precision Baseline Runs A (VM 05) & B (VM 06)**.
+The 100ms sampling rate verifies the delayed observability of traditional Load Balancers during Resource Starvation (Gray Failures). 
+
+**Generating Visualizations**:
+We have provided an automated visualization script to parse the raw data into an impactful dual-axis plot.
+```powershell
+# Requires pandas and matplotlib
+python scripts\chaos\generate_midterm_plots.py
+```
+*Output Destination*: `data/figures/gray_failure_analysis_dual_nodes.png`
 
 - **W2 Network Fault Injection (GrayPulse Evaluation)**: [W2 Network Test Protocol](archive/W2_network_test/README.md)
 
