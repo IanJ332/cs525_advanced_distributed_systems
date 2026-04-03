@@ -37,16 +37,28 @@ async def strawman_handler(request):
         return web.json_response({"error": str(e)}, status=500)
 
 async def smart_handler(request):
-    # CORE PROPOSAL: Byte-stream passthrough (Zero Parsing)
-    # This just forwards the raw binary stream header-to-header
-    backend = BACKENDS[hash(request.path) % len(BACKENDS)]
+    start_time = time.perf_counter()
+    # P2C Selection (Simplified for this version)
+    backend = BACKENDS[hash(time.time()) % len(BACKENDS)]
     url = f"http://{backend}:8000{request.path}"
     
+    # 1. Read binary body (Passthrough)
+    body_data = await request.read()
+    
     async with aiohttp.ClientSession() as session:
-        async with session.post(url, data=request.content) as resp:
-            # Stream the response body back without parsing
-            body = await resp.read()
-            return web.Response(body=body, status=resp.status, content_type='application/json')
+        # 2. Forward without JSON parsing
+        try:
+            async with session.post(url, data=body_data) as resp:
+                body = await resp.read()
+                overhead = (time.perf_counter() - start_time) * 1000
+                headers = {
+                    'X-Backend-Id': backend,
+                    'X-Gateway-Overhead-Ms': f"{overhead:.2f}",
+                    'Content-Type': 'application/json'
+                }
+                return web.Response(body=body, status=resp.status, headers=headers)
+        except Exception as e:
+            return web.Response(body=json.dumps({"gateway_error": str(e)}), status=502)
 
 app = web.Application(client_max_size=1024**3) # 1GB Max
 
