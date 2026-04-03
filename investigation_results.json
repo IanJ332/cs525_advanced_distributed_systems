@@ -1,0 +1,9 @@
+{
+    "sp26-cs525-0605.cs.illinois.edu": {
+        "var_profile": "15G\t/var/lib\n15G\t/var\n14G\t/var/lib/containers/storage\n14G\t/var/lib/containers\n164M\t/var/lib/rpm\n72M\t/var/log\n42M\t/var/lib/sss\n37M\t/var/log/sssd\n34M\t/var/lib/sss/mc\n18M\t/var/lib/selinux/targeted\n18M\t/var/lib/selinux\n13M\t/var/log/audit\n11M\t/var/cache\n8.7M\t/var/lib/mlocate\n7.8M\t/var/cache/dnf",
+        "model_hunt": "/home/jisheng3/triton_model_repo/mock_model/config.pbtxt\n/home/jisheng3/triton_model_repo/resnet50/1/model.onnx\n/home/jisheng3/triton_model_repo/resnet50/config.pbtxt\n/home/jisheng3/triton_model_repo/mobilebert/config.pbtxt"
+    },
+    "sp26-cs525-0606.cs.illinois.edu": {
+        "model_hunt": "/home/jisheng3/triton_model_repo/mock_model/config.pbtxt\n/home/jisheng3/triton_model_repo/resnet50/1/model.onnx\n/home/jisheng3/triton_model_repo/resnet50/config.pbtxt\n/home/jisheng3/triton_model_repo/mobilebert/config.pbtxt"
+    }
+}

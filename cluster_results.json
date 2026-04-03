@@ -1,0 +1,12 @@
+{
+    "sp26-cs525-0605.cs.illinois.edu": {
+        "df_before": "Filesystem                           Size  Used Avail Use% Mounted on\n/dev/mapper/sp26_cs525_0605_sys-var   16G   15G  1.1G  94% /var",
+        "df_after": "Filesystem                           Size  Used Avail Use% Mounted on\n/dev/mapper/sp26_cs525_0605_sys-var   16G   15G  1.7G  90% /var",
+        "recon": "/srv/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/37/fs/usr/local/lib/python3.10/dist-packages/transformers/models/resnet"
+    },
+    "sp26-cs525-0606.cs.illinois.edu": {
+        "df_before": "Filesystem                           Size  Used Avail Use% Mounted on\n/dev/mapper/sp26_cs525_0606_sys-var   16G  870M   16G   6% /var",
+        "df_after": "Filesystem                           Size  Used Avail Use% Mounted on\n/dev/mapper/sp26_cs525_0606_sys-var   16G  448M   16G   3% /var",
+        "recon": "/srv/containerd/io.containerd.snapshotter.v1.overlayfs/snapshots/95/fs/usr/local/lib/python3.10/dist-packages/transformers/models/resnet"
+    }
+}

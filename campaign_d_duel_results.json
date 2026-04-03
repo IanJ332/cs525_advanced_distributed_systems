@@ -1,0 +1,12 @@
+{
+    "strawman": {
+        "raw": "",
+        "peak_cpu": 56.6,
+        "peak_mem_mb": 634.9765625
+    },
+    "smart": {
+        "raw": "",
+        "peak_cpu": 6.6,
+        "peak_mem_mb": 46.63671875
+    }
+}
