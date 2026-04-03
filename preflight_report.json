@@ -1,0 +1,65 @@
+{
+    "load_nodes": {
+        "VM 02": {
+            "files": "bombard_engine.py",
+            "libs": "READY"
+        },
+        "VM 03": {
+            "files": "MISSING",
+            "libs": ""
+        }
+    },
+    "gateway": {
+        "script": "gateway_dual_mode.py"
+    },
+    "backends": {
+        "sp26-cs525-0618.cs.illinois.edu": {
+            "sys": "000",
+            "model": "000"
+        },
+        "sp26-cs525-0614.cs.illinois.edu": {
+            "sys": "000",
+            "model": "000"
+        },
+        "sp26-cs525-0606.cs.illinois.edu": {
+            "sys": "000",
+            "model": "000"
+        },
+        "sp26-cs525-0619.cs.illinois.edu": {
+            "sys": "000",
+            "model": "000"
+        },
+        "sp26-cs525-0608.cs.illinois.edu": {
+            "sys": "000",
+            "model": "000"
+        },
+        "sp26-cs525-0609.cs.illinois.edu": {
+            "sys": "000",
+            "model": "000"
+        },
+        "sp26-cs525-0605.cs.illinois.edu": {
+            "sys": "000",
+            "model": "000"
+        },
+        "sp26-cs525-0617.cs.illinois.edu": {
+            "sys": "000",
+            "model": "000"
+        },
+        "sp26-cs525-0612.cs.illinois.edu": {
+            "sys": "000",
+            "model": "000"
+        },
+        "sp26-cs525-0607.cs.illinois.edu": {
+            "sys": "000",
+            "model": "000"
+        },
+        "sp26-cs525-0613.cs.illinois.edu": {
+            "sys": "000",
+            "model": "000"
+        },
+        "sp26-cs525-0615.cs.illinois.edu": {
+            "sys": "000",
+            "model": "000"
+        }
+    }
+}
