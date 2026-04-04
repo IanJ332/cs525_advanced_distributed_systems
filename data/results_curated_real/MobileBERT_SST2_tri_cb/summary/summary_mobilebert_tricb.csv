@@ -1,0 +1,6 @@
+mode,concurrency,total_requests,success_rate,rps,avg_ms,p95_ms,p99_ms,
+mobilebert_tri_cb,32,61391,0.9996,255.8,124.93,217.12,419.15,
+mobilebert_tri_cb,48,80382,0.9988,334.93,142.82,250.62,456.81,
+mobilebert_tri_cb,64,91581,0.9969,381.59,166.43,292.21,504.28,
+mobilebert_tri_cb,96,99860,0.9705,416.08,218.86,506.39,590.51,
+mobilebert_tri_cb,128,105744,0.9232,440.6,262.55,564.7,616.27,

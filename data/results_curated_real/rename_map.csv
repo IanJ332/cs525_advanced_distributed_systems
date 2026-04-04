@@ -1,0 +1,10 @@
+original_path,curated_path,rename_reason
+MobileBERT + p2c_pewma + SST-2,MobileBERT_SST2_p2c_pewma,Normalization naming convention
+MobileBERT + round_robin + SST-2,MobileBERT_SST2_round_robin,Normalization naming convention
+MobileBERT + Smart vs Strawman Gateway Ablation + SST-2,MobileBERT_SST2_gateway_ablation,Normalization naming convention
+MobileBERT + tri_cb + SST-2,MobileBERT_SST2_tri_cb,Normalization naming convention
+ResNet-50 + p2c_pewma + CIFAR-10,ResNet50_CIFAR10_p2c_pewma,Normalization naming convention
+ResNet-50 + round_robin + CIFAR-10,ResNet50_CIFAR10_round_robin,Normalization naming convention
+ResNet-50 + Smart vs Strawman Gateway Ablation + CIFAR-10(224 resize),ResNet50_CIFAR10_gateway_ablation,Normalization naming convention
+ResNet-50 + tri_cb + CIFAR-10,ResNet50_CIFAR10_tri_cb,Normalization naming convention
+RESULT1,ResNet50_CIFAR10_campaign_a_smart,Normalization naming convention

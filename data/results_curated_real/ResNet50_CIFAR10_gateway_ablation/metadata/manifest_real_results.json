@@ -1,0 +1,21 @@
+{
+    "experiment_name": "ResNet50_CIFAR10_gateway_ablation",
+    "model": "ResNet50",
+    "dataset": "CIFAR10",
+    "experiment_type": "gateway_ablation",
+    "concurrency_levels": [
+        "16",
+        "24",
+        "32",
+        "48",
+        "64"
+    ],
+    "file_counts": {
+        "requests": 10,
+        "summaries": 1,
+        "benchmarks": 2
+    },
+    "schema_version": "1.0",
+    "cleanup_timestamp": "2026-04-04T00:20:50.539555",
+    "notes": ""
+}

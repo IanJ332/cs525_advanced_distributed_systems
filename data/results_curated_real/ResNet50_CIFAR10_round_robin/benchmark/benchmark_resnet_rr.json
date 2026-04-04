@@ -1,0 +1,2019 @@
+{
+    "data_label": "SIMULATED DATA",
+    "description": "Synthetic, technically consistent baseline for a distributed systems midterm report. This package is not measured data.",
+    "model": "ResNet-50",
+    "framework": "round_robin",
+    "dataset": "CIFAR-10 resized to 224x224",
+    "serving": {
+        "runtime": "Triton CPU-only distributed serving",
+        "input_tensor_name": "data",
+        "precision": "FP32",
+        "input_shape": [
+            1,
+            3,
+            224,
+            224
+        ],
+        "batch_size": 1,
+        "dynamic_batching": false
+    },
+    "cluster": {
+        "total_vms": 20,
+        "active_backend_count": 12,
+        "active_backend_nodes": [
+            "sp26-cs525-0605",
+            "sp26-cs525-0606",
+            "sp26-cs525-0607",
+            "sp26-cs525-0608",
+            "sp26-cs525-0609",
+            "sp26-cs525-0612",
+            "sp26-cs525-0613",
+            "sp26-cs525-0614",
+            "sp26-cs525-0615",
+            "sp26-cs525-0617",
+            "sp26-cs525-0618",
+            "sp26-cs525-0619"
+        ]
+    },
+    "campaign": {
+        "duration_s": 240,
+        "concurrency_levels": [
+            16,
+            24,
+            32,
+            48,
+            64
+        ],
+        "phases": [
+            {
+                "name": "steady",
+                "start_s": 0,
+                "end_s": 90
+            },
+            {
+                "name": "fault",
+                "start_s": 90,
+                "end_s": 180
+            },
+            {
+                "name": "recovery",
+                "start_s": 180,
+                "end_s": 240
+            }
+        ]
+    },
+    "framework_semantics": {
+        "expected_distribution": "near-uniform round robin across the 12 active backends",
+        "adaptivity": "does not adapt away from degraded sp26-cs525-0605 during the fault window",
+        "relative_fault_behavior": "stronger fault-window impact than tri_cb or p2c_pewma",
+        "operating_point_notes": {
+            "c16": "healthy at low concurrency",
+            "c24": "healthy at low concurrency",
+            "c32": "near the throughput/latency knee",
+            "c48": "visibly degraded",
+            "c64": "visibly degraded"
+        }
+    },
+    "artifact_files": {
+        "campaign_cv_resnet_rr_c16.csv": "campaign_cv_resnet_rr_c16.csv",
+        "campaign_cv_resnet_rr_c24.csv": "campaign_cv_resnet_rr_c24.csv",
+        "campaign_cv_resnet_rr_c32.csv": "campaign_cv_resnet_rr_c32.csv",
+        "campaign_cv_resnet_rr_c48.csv": "campaign_cv_resnet_rr_c48.csv",
+        "campaign_cv_resnet_rr_c64.csv": "campaign_cv_resnet_rr_c64.csv",
+        "summary_resnet_rr.csv": "summary_resnet_rr.csv",
+        "benchmark_resnet_rr.json": "benchmark_resnet_rr.json",
+        "README_SIMULATED_DATA.txt": "README_SIMULATED_DATA.txt"
+    },
+    "per_concurrency_summary": {
+        "c16": {
+            "steady": {
+                "requests": 1246,
+                "success_rate_pct": 99.76,
+                "throughput_rps": 13.844,
+                "mean_e2e_ms": 1119.071,
+                "p50_e2e_ms": 1074.971,
+                "p95_e2e_ms": 1709.428,
+                "p99_e2e_ms": 2113.43,
+                "gateway_overhead_ms_mean": 6.076,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 104,
+                        "success_rate_pct": 99.04,
+                        "mean_e2e_ms": 1222.18,
+                        "p95_e2e_ms": 2006.791
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 104,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1153.113,
+                        "p95_e2e_ms": 1740.847
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 104,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1162.462,
+                        "p95_e2e_ms": 1755.068
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 104,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1080.414,
+                        "p95_e2e_ms": 1590.4
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 104,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1091.082,
+                        "p95_e2e_ms": 1594.426
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 104,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1094.568,
+                        "p95_e2e_ms": 1635.323
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 104,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1123.683,
+                        "p95_e2e_ms": 1837.399
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 104,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1086.102,
+                        "p95_e2e_ms": 1683.394
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 104,
+                        "success_rate_pct": 99.04,
+                        "mean_e2e_ms": 1093.056,
+                        "p95_e2e_ms": 1602.703
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 104,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1119.332,
+                        "p95_e2e_ms": 1668.44
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 103,
+                        "success_rate_pct": 99.03,
+                        "mean_e2e_ms": 1085.062,
+                        "p95_e2e_ms": 1730.519
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 103,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1117.457,
+                        "p95_e2e_ms": 1651.755
+                    }
+                ]
+            },
+            "fault": {
+                "requests": 1048,
+                "success_rate_pct": 94.18,
+                "throughput_rps": 11.644,
+                "mean_e2e_ms": 1603.857,
+                "p50_e2e_ms": 1424.903,
+                "p95_e2e_ms": 2970.483,
+                "p99_e2e_ms": 4514.753,
+                "gateway_overhead_ms_mean": 7.483,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 88,
+                        "success_rate_pct": 73.86,
+                        "mean_e2e_ms": 3063.124,
+                        "p95_e2e_ms": 4941.32
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 88,
+                        "success_rate_pct": 90.91,
+                        "mean_e2e_ms": 1462.407,
+                        "p95_e2e_ms": 2117.163
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 87,
+                        "success_rate_pct": 97.7,
+                        "mean_e2e_ms": 1460.003,
+                        "p95_e2e_ms": 2148.862
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 87,
+                        "success_rate_pct": 97.7,
+                        "mean_e2e_ms": 1551.489,
+                        "p95_e2e_ms": 2551.52
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 87,
+                        "success_rate_pct": 95.4,
+                        "mean_e2e_ms": 1370.593,
+                        "p95_e2e_ms": 2001.867
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 87,
+                        "success_rate_pct": 96.55,
+                        "mean_e2e_ms": 1433.353,
+                        "p95_e2e_ms": 2137.82
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 87,
+                        "success_rate_pct": 94.25,
+                        "mean_e2e_ms": 1546.813,
+                        "p95_e2e_ms": 2372.119
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 87,
+                        "success_rate_pct": 94.25,
+                        "mean_e2e_ms": 1501.566,
+                        "p95_e2e_ms": 2388.531
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 87,
+                        "success_rate_pct": 97.7,
+                        "mean_e2e_ms": 1481.46,
+                        "p95_e2e_ms": 2261.068
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 87,
+                        "success_rate_pct": 98.85,
+                        "mean_e2e_ms": 1421.913,
+                        "p95_e2e_ms": 2147.952
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 88,
+                        "success_rate_pct": 98.86,
+                        "mean_e2e_ms": 1433.868,
+                        "p95_e2e_ms": 2106.854
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 88,
+                        "success_rate_pct": 94.32,
+                        "mean_e2e_ms": 1507.607,
+                        "p95_e2e_ms": 2451.22
+                    }
+                ]
+            },
+            "recovery": {
+                "requests": 881,
+                "success_rate_pct": 98.18,
+                "throughput_rps": 14.683,
+                "mean_e2e_ms": 1211.224,
+                "p50_e2e_ms": 1156.767,
+                "p95_e2e_ms": 1934.363,
+                "p99_e2e_ms": 2404.889,
+                "gateway_overhead_ms_mean": 6.776,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 73,
+                        "success_rate_pct": 93.15,
+                        "mean_e2e_ms": 1548.943,
+                        "p95_e2e_ms": 2517.822
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 73,
+                        "success_rate_pct": 98.63,
+                        "mean_e2e_ms": 1097.54,
+                        "p95_e2e_ms": 1675.5
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 74,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1171.0,
+                        "p95_e2e_ms": 1779.492
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 74,
+                        "success_rate_pct": 98.65,
+                        "mean_e2e_ms": 1139.34,
+                        "p95_e2e_ms": 1761.981
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 74,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1161.507,
+                        "p95_e2e_ms": 1810.873
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 74,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1182.541,
+                        "p95_e2e_ms": 1761.914
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 74,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1312.309,
+                        "p95_e2e_ms": 2066.231
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 73,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1160.889,
+                        "p95_e2e_ms": 1672.298
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 73,
+                        "success_rate_pct": 95.89,
+                        "mean_e2e_ms": 1184.416,
+                        "p95_e2e_ms": 1817.429
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 73,
+                        "success_rate_pct": 97.26,
+                        "mean_e2e_ms": 1264.3,
+                        "p95_e2e_ms": 1983.651
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 73,
+                        "success_rate_pct": 95.89,
+                        "mean_e2e_ms": 1127.776,
+                        "p95_e2e_ms": 1754.25
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 73,
+                        "success_rate_pct": 98.63,
+                        "mean_e2e_ms": 1185.356,
+                        "p95_e2e_ms": 1782.063
+                    }
+                ]
+            },
+            "overall": {
+                "requests": 3175,
+                "success_rate_pct": 97.48,
+                "throughput_rps": 13.229,
+                "mean_e2e_ms": 1304.659,
+                "p50_e2e_ms": 1199.609,
+                "p95_e2e_ms": 2189.59,
+                "p99_e2e_ms": 3476.997,
+                "gateway_overhead_ms_mean": 6.734,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 265,
+                        "success_rate_pct": 89.06,
+                        "mean_e2e_ms": 1923.526,
+                        "p95_e2e_ms": 4234.483
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 265,
+                        "success_rate_pct": 96.6,
+                        "mean_e2e_ms": 1240.513,
+                        "p95_e2e_ms": 2016.172
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 265,
+                        "success_rate_pct": 99.25,
+                        "mean_e2e_ms": 1262.529,
+                        "p95_e2e_ms": 1953.619
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 265,
+                        "success_rate_pct": 98.87,
+                        "mean_e2e_ms": 1251.523,
+                        "p95_e2e_ms": 2126.701
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 265,
+                        "success_rate_pct": 98.49,
+                        "mean_e2e_ms": 1202.512,
+                        "p95_e2e_ms": 1881.775
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 265,
+                        "success_rate_pct": 98.87,
+                        "mean_e2e_ms": 1230.358,
+                        "p95_e2e_ms": 1873.914
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 265,
+                        "success_rate_pct": 98.11,
+                        "mean_e2e_ms": 1315.27,
+                        "p95_e2e_ms": 2094.233
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 264,
+                        "success_rate_pct": 98.11,
+                        "mean_e2e_ms": 1243.696,
+                        "p95_e2e_ms": 2077.023
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 264,
+                        "success_rate_pct": 97.73,
+                        "mean_e2e_ms": 1246.315,
+                        "p95_e2e_ms": 2031.444
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 264,
+                        "success_rate_pct": 98.86,
+                        "mean_e2e_ms": 1259.132,
+                        "p95_e2e_ms": 1964.7
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 264,
+                        "success_rate_pct": 98.11,
+                        "mean_e2e_ms": 1213.142,
+                        "p95_e2e_ms": 1964.617
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 264,
+                        "success_rate_pct": 97.73,
+                        "mean_e2e_ms": 1266.282,
+                        "p95_e2e_ms": 2051.37
+                    }
+                ]
+            }
+        },
+        "c24": {
+            "steady": {
+                "requests": 1728,
+                "success_rate_pct": 98.73,
+                "throughput_rps": 19.2,
+                "mean_e2e_ms": 1281.466,
+                "p50_e2e_ms": 1220.473,
+                "p95_e2e_ms": 2045.315,
+                "p99_e2e_ms": 2536.368,
+                "gateway_overhead_ms_mean": 8.027,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 144,
+                        "success_rate_pct": 98.61,
+                        "mean_e2e_ms": 1390.309,
+                        "p95_e2e_ms": 2333.831
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 144,
+                        "success_rate_pct": 98.61,
+                        "mean_e2e_ms": 1237.28,
+                        "p95_e2e_ms": 1986.206
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 144,
+                        "success_rate_pct": 98.61,
+                        "mean_e2e_ms": 1318.313,
+                        "p95_e2e_ms": 2254.329
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 144,
+                        "success_rate_pct": 98.61,
+                        "mean_e2e_ms": 1295.737,
+                        "p95_e2e_ms": 1980.084
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 144,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1277.257,
+                        "p95_e2e_ms": 2032.658
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 144,
+                        "success_rate_pct": 98.61,
+                        "mean_e2e_ms": 1212.832,
+                        "p95_e2e_ms": 1896.675
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 144,
+                        "success_rate_pct": 98.61,
+                        "mean_e2e_ms": 1258.724,
+                        "p95_e2e_ms": 1982.744
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 144,
+                        "success_rate_pct": 98.61,
+                        "mean_e2e_ms": 1257.542,
+                        "p95_e2e_ms": 1863.221
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 144,
+                        "success_rate_pct": 98.61,
+                        "mean_e2e_ms": 1327.004,
+                        "p95_e2e_ms": 2018.213
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 144,
+                        "success_rate_pct": 99.31,
+                        "mean_e2e_ms": 1290.559,
+                        "p95_e2e_ms": 1876.787
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 144,
+                        "success_rate_pct": 97.22,
+                        "mean_e2e_ms": 1256.584,
+                        "p95_e2e_ms": 1868.43
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 144,
+                        "success_rate_pct": 99.31,
+                        "mean_e2e_ms": 1255.451,
+                        "p95_e2e_ms": 1855.283
+                    }
+                ]
+            },
+            "fault": {
+                "requests": 1315,
+                "success_rate_pct": 92.85,
+                "throughput_rps": 14.611,
+                "mean_e2e_ms": 1946.797,
+                "p50_e2e_ms": 1759.865,
+                "p95_e2e_ms": 3632.938,
+                "p99_e2e_ms": 5244.137,
+                "gateway_overhead_ms_mean": 9.503,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 110,
+                        "success_rate_pct": 60.91,
+                        "mean_e2e_ms": 3804.081,
+                        "p95_e2e_ms": 6405.578
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 110,
+                        "success_rate_pct": 97.27,
+                        "mean_e2e_ms": 1764.512,
+                        "p95_e2e_ms": 2763.578
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 110,
+                        "success_rate_pct": 95.45,
+                        "mean_e2e_ms": 1812.923,
+                        "p95_e2e_ms": 2976.455
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 110,
+                        "success_rate_pct": 96.36,
+                        "mean_e2e_ms": 1793.835,
+                        "p95_e2e_ms": 2849.429
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 110,
+                        "success_rate_pct": 95.45,
+                        "mean_e2e_ms": 1776.224,
+                        "p95_e2e_ms": 2690.771
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 110,
+                        "success_rate_pct": 93.64,
+                        "mean_e2e_ms": 1874.166,
+                        "p95_e2e_ms": 2965.265
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 110,
+                        "success_rate_pct": 98.18,
+                        "mean_e2e_ms": 1746.568,
+                        "p95_e2e_ms": 2715.448
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 109,
+                        "success_rate_pct": 96.33,
+                        "mean_e2e_ms": 1740.013,
+                        "p95_e2e_ms": 2580.909
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 109,
+                        "success_rate_pct": 95.41,
+                        "mean_e2e_ms": 1755.214,
+                        "p95_e2e_ms": 2744.487
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 109,
+                        "success_rate_pct": 97.25,
+                        "mean_e2e_ms": 1732.501,
+                        "p95_e2e_ms": 2621.811
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 109,
+                        "success_rate_pct": 91.74,
+                        "mean_e2e_ms": 1848.164,
+                        "p95_e2e_ms": 2940.703
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 109,
+                        "success_rate_pct": 96.33,
+                        "mean_e2e_ms": 1704.696,
+                        "p95_e2e_ms": 2717.046
+                    }
+                ]
+            },
+            "recovery": {
+                "requests": 1045,
+                "success_rate_pct": 96.46,
+                "throughput_rps": 17.417,
+                "mean_e2e_ms": 1446.383,
+                "p50_e2e_ms": 1362.14,
+                "p95_e2e_ms": 2316.318,
+                "p99_e2e_ms": 3080.629,
+                "gateway_overhead_ms_mean": 8.792,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 87,
+                        "success_rate_pct": 86.21,
+                        "mean_e2e_ms": 1932.375,
+                        "p95_e2e_ms": 3012.042
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 87,
+                        "success_rate_pct": 97.7,
+                        "mean_e2e_ms": 1409.062,
+                        "p95_e2e_ms": 2415.324
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 87,
+                        "success_rate_pct": 95.4,
+                        "mean_e2e_ms": 1474.721,
+                        "p95_e2e_ms": 2527.668
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 87,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1395.186,
+                        "p95_e2e_ms": 1994.461
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 87,
+                        "success_rate_pct": 100.0,
+                        "mean_e2e_ms": 1343.485,
+                        "p95_e2e_ms": 2039.412
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 87,
+                        "success_rate_pct": 98.85,
+                        "mean_e2e_ms": 1377.932,
+                        "p95_e2e_ms": 2087.019
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 87,
+                        "success_rate_pct": 98.85,
+                        "mean_e2e_ms": 1374.063,
+                        "p95_e2e_ms": 2149.209
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 88,
+                        "success_rate_pct": 97.73,
+                        "mean_e2e_ms": 1391.184,
+                        "p95_e2e_ms": 2124.41
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 87,
+                        "success_rate_pct": 96.55,
+                        "mean_e2e_ms": 1448.694,
+                        "p95_e2e_ms": 2527.799
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 87,
+                        "success_rate_pct": 94.25,
+                        "mean_e2e_ms": 1350.419,
+                        "p95_e2e_ms": 1953.061
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 87,
+                        "success_rate_pct": 96.55,
+                        "mean_e2e_ms": 1465.288,
+                        "p95_e2e_ms": 2299.023
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 87,
+                        "success_rate_pct": 95.4,
+                        "mean_e2e_ms": 1394.821,
+                        "p95_e2e_ms": 2181.128
+                    }
+                ]
+            },
+            "overall": {
+                "requests": 4088,
+                "success_rate_pct": 96.26,
+                "throughput_rps": 17.033,
+                "mean_e2e_ms": 1537.642,
+                "p50_e2e_ms": 1393.978,
+                "p95_e2e_ms": 2687.67,
+                "p99_e2e_ms": 4159.605,
+                "gateway_overhead_ms_mean": 8.697,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 341,
+                        "success_rate_pct": 83.28,
+                        "mean_e2e_ms": 2307.243,
+                        "p95_e2e_ms": 4919.079
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 341,
+                        "success_rate_pct": 97.95,
+                        "mean_e2e_ms": 1451.182,
+                        "p95_e2e_ms": 2472.926
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 341,
+                        "success_rate_pct": 96.77,
+                        "mean_e2e_ms": 1517.77,
+                        "p95_e2e_ms": 2617.877
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 341,
+                        "success_rate_pct": 98.24,
+                        "mean_e2e_ms": 1481.786,
+                        "p95_e2e_ms": 2420.389
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 341,
+                        "success_rate_pct": 98.53,
+                        "mean_e2e_ms": 1455.111,
+                        "p95_e2e_ms": 2437.919
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 341,
+                        "success_rate_pct": 97.07,
+                        "mean_e2e_ms": 1468.288,
+                        "p95_e2e_ms": 2599.344
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 341,
+                        "success_rate_pct": 98.53,
+                        "mean_e2e_ms": 1445.52,
+                        "p95_e2e_ms": 2396.101
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 341,
+                        "success_rate_pct": 97.65,
+                        "mean_e2e_ms": 1446.251,
+                        "p95_e2e_ms": 2245.098
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 340,
+                        "success_rate_pct": 97.06,
+                        "mean_e2e_ms": 1495.421,
+                        "p95_e2e_ms": 2570.482
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 340,
+                        "success_rate_pct": 97.35,
+                        "mean_e2e_ms": 1447.558,
+                        "p95_e2e_ms": 2342.365
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 340,
+                        "success_rate_pct": 95.29,
+                        "mean_e2e_ms": 1499.641,
+                        "p95_e2e_ms": 2562.438
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 340,
+                        "success_rate_pct": 97.35,
+                        "mean_e2e_ms": 1435.136,
+                        "p95_e2e_ms": 2291.515
+                    }
+                ]
+            }
+        },
+        "c32": {
+            "steady": {
+                "requests": 1805,
+                "success_rate_pct": 96.9,
+                "throughput_rps": 20.056,
+                "mean_e2e_ms": 1582.082,
+                "p50_e2e_ms": 1477.037,
+                "p95_e2e_ms": 2632.986,
+                "p99_e2e_ms": 3297.311,
+                "gateway_overhead_ms_mean": 11.049,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 151,
+                        "success_rate_pct": 93.38,
+                        "mean_e2e_ms": 1788.658,
+                        "p95_e2e_ms": 2908.553
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 151,
+                        "success_rate_pct": 98.01,
+                        "mean_e2e_ms": 1589.343,
+                        "p95_e2e_ms": 2458.248
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 151,
+                        "success_rate_pct": 95.36,
+                        "mean_e2e_ms": 1506.484,
+                        "p95_e2e_ms": 2528.784
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 151,
+                        "success_rate_pct": 96.03,
+                        "mean_e2e_ms": 1541.491,
+                        "p95_e2e_ms": 2665.075
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 151,
+                        "success_rate_pct": 98.68,
+                        "mean_e2e_ms": 1584.639,
+                        "p95_e2e_ms": 2604.738
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 150,
+                        "success_rate_pct": 98.67,
+                        "mean_e2e_ms": 1530.823,
+                        "p95_e2e_ms": 2560.407
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 150,
+                        "success_rate_pct": 96.0,
+                        "mean_e2e_ms": 1528.299,
+                        "p95_e2e_ms": 2474.163
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 150,
+                        "success_rate_pct": 99.33,
+                        "mean_e2e_ms": 1552.358,
+                        "p95_e2e_ms": 2648.234
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 150,
+                        "success_rate_pct": 96.67,
+                        "mean_e2e_ms": 1602.467,
+                        "p95_e2e_ms": 2760.925
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 150,
+                        "success_rate_pct": 96.67,
+                        "mean_e2e_ms": 1542.975,
+                        "p95_e2e_ms": 2589.223
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 150,
+                        "success_rate_pct": 96.0,
+                        "mean_e2e_ms": 1614.705,
+                        "p95_e2e_ms": 2702.334
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 150,
+                        "success_rate_pct": 98.0,
+                        "mean_e2e_ms": 1602.071,
+                        "p95_e2e_ms": 2660.588
+                    }
+                ]
+            },
+            "fault": {
+                "requests": 1362,
+                "success_rate_pct": 87.3,
+                "throughput_rps": 15.133,
+                "mean_e2e_ms": 2710.424,
+                "p50_e2e_ms": 2392.371,
+                "p95_e2e_ms": 5223.223,
+                "p99_e2e_ms": 8963.573,
+                "gateway_overhead_ms_mean": 13.482,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 113,
+                        "success_rate_pct": 58.41,
+                        "mean_e2e_ms": 5717.997,
+                        "p95_e2e_ms": 9000.0
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 113,
+                        "success_rate_pct": 90.27,
+                        "mean_e2e_ms": 2568.338,
+                        "p95_e2e_ms": 4342.37
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 113,
+                        "success_rate_pct": 92.92,
+                        "mean_e2e_ms": 2481.201,
+                        "p95_e2e_ms": 4317.522
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 113,
+                        "success_rate_pct": 85.84,
+                        "mean_e2e_ms": 2441.576,
+                        "p95_e2e_ms": 4009.083
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 113,
+                        "success_rate_pct": 89.38,
+                        "mean_e2e_ms": 2342.965,
+                        "p95_e2e_ms": 3669.07
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 114,
+                        "success_rate_pct": 92.98,
+                        "mean_e2e_ms": 2382.228,
+                        "p95_e2e_ms": 3860.862
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 114,
+                        "success_rate_pct": 83.33,
+                        "mean_e2e_ms": 2438.279,
+                        "p95_e2e_ms": 3921.484
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 114,
+                        "success_rate_pct": 92.11,
+                        "mean_e2e_ms": 2478.828,
+                        "p95_e2e_ms": 4128.191
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 114,
+                        "success_rate_pct": 92.98,
+                        "mean_e2e_ms": 2315.523,
+                        "p95_e2e_ms": 4183.27
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 114,
+                        "success_rate_pct": 85.09,
+                        "mean_e2e_ms": 2418.587,
+                        "p95_e2e_ms": 3874.841
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 114,
+                        "success_rate_pct": 88.6,
+                        "mean_e2e_ms": 2549.886,
+                        "p95_e2e_ms": 3893.39
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 113,
+                        "success_rate_pct": 95.58,
+                        "mean_e2e_ms": 2404.543,
+                        "p95_e2e_ms": 3918.584
+                    }
+                ]
+            },
+            "recovery": {
+                "requests": 1132,
+                "success_rate_pct": 94.79,
+                "throughput_rps": 18.867,
+                "mean_e2e_ms": 1939.054,
+                "p50_e2e_ms": 1838.432,
+                "p95_e2e_ms": 3245.107,
+                "p99_e2e_ms": 4079.598,
+                "gateway_overhead_ms_mean": 12.166,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 95,
+                        "success_rate_pct": 84.21,
+                        "mean_e2e_ms": 2612.32,
+                        "p95_e2e_ms": 4372.148
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 95,
+                        "success_rate_pct": 93.68,
+                        "mean_e2e_ms": 1886.513,
+                        "p95_e2e_ms": 3072.137
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 95,
+                        "success_rate_pct": 94.74,
+                        "mean_e2e_ms": 1888.631,
+                        "p95_e2e_ms": 3279.642
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 94,
+                        "success_rate_pct": 90.43,
+                        "mean_e2e_ms": 1846.275,
+                        "p95_e2e_ms": 2735.607
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 94,
+                        "success_rate_pct": 97.87,
+                        "mean_e2e_ms": 1880.546,
+                        "p95_e2e_ms": 2895.011
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 94,
+                        "success_rate_pct": 96.81,
+                        "mean_e2e_ms": 1951.443,
+                        "p95_e2e_ms": 3537.824
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 94,
+                        "success_rate_pct": 97.87,
+                        "mean_e2e_ms": 1893.476,
+                        "p95_e2e_ms": 3143.378
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 94,
+                        "success_rate_pct": 95.74,
+                        "mean_e2e_ms": 1794.516,
+                        "p95_e2e_ms": 2745.325
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 94,
+                        "success_rate_pct": 95.74,
+                        "mean_e2e_ms": 1908.833,
+                        "p95_e2e_ms": 3035.439
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 94,
+                        "success_rate_pct": 97.87,
+                        "mean_e2e_ms": 1889.925,
+                        "p95_e2e_ms": 2985.122
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 94,
+                        "success_rate_pct": 94.68,
+                        "mean_e2e_ms": 1858.324,
+                        "p95_e2e_ms": 2995.607
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 95,
+                        "success_rate_pct": 97.89,
+                        "mean_e2e_ms": 1852.699,
+                        "p95_e2e_ms": 3192.92
+                    }
+                ]
+            },
+            "overall": {
+                "requests": 4299,
+                "success_rate_pct": 93.3,
+                "throughput_rps": 17.913,
+                "mean_e2e_ms": 2033.558,
+                "p50_e2e_ms": 1810.555,
+                "p95_e2e_ms": 3773.764,
+                "p99_e2e_ms": 6398.129,
+                "gateway_overhead_ms_mean": 12.114,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 359,
+                        "success_rate_pct": 79.94,
+                        "mean_e2e_ms": 3243.43,
+                        "p95_e2e_ms": 8377.082
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 359,
+                        "success_rate_pct": 94.43,
+                        "mean_e2e_ms": 1976.133,
+                        "p95_e2e_ms": 3656.652
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 359,
+                        "success_rate_pct": 94.43,
+                        "mean_e2e_ms": 1914.414,
+                        "p95_e2e_ms": 3437.399
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 358,
+                        "success_rate_pct": 91.34,
+                        "mean_e2e_ms": 1905.623,
+                        "p95_e2e_ms": 3399.385
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 358,
+                        "success_rate_pct": 95.53,
+                        "mean_e2e_ms": 1901.695,
+                        "p95_e2e_ms": 3386.795
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 358,
+                        "success_rate_pct": 96.37,
+                        "mean_e2e_ms": 1912.383,
+                        "p95_e2e_ms": 3303.589
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 358,
+                        "success_rate_pct": 92.46,
+                        "mean_e2e_ms": 1913.953,
+                        "p95_e2e_ms": 3449.945
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 358,
+                        "success_rate_pct": 96.09,
+                        "mean_e2e_ms": 1910.963,
+                        "p95_e2e_ms": 3535.505
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 358,
+                        "success_rate_pct": 95.25,
+                        "mean_e2e_ms": 1909.972,
+                        "p95_e2e_ms": 3280.36
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 358,
+                        "success_rate_pct": 93.3,
+                        "mean_e2e_ms": 1912.9,
+                        "p95_e2e_ms": 3286.397
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 358,
+                        "success_rate_pct": 93.3,
+                        "mean_e2e_ms": 1976.467,
+                        "p95_e2e_ms": 3468.392
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 358,
+                        "success_rate_pct": 97.21,
+                        "mean_e2e_ms": 1921.873,
+                        "p95_e2e_ms": 3345.478
+                    }
+                ]
+            }
+        },
+        "c48": {
+            "steady": {
+                "requests": 1743,
+                "success_rate_pct": 89.16,
+                "throughput_rps": 19.367,
+                "mean_e2e_ms": 2711.21,
+                "p50_e2e_ms": 2522.073,
+                "p95_e2e_ms": 4896.897,
+                "p99_e2e_ms": 6035.118,
+                "gateway_overhead_ms_mean": 15.965,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 146,
+                        "success_rate_pct": 82.88,
+                        "mean_e2e_ms": 3343.695,
+                        "p95_e2e_ms": 5604.628
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 146,
+                        "success_rate_pct": 87.67,
+                        "mean_e2e_ms": 2854.291,
+                        "p95_e2e_ms": 5195.286
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 146,
+                        "success_rate_pct": 91.1,
+                        "mean_e2e_ms": 2556.36,
+                        "p95_e2e_ms": 4659.774
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 145,
+                        "success_rate_pct": 87.59,
+                        "mean_e2e_ms": 2778.605,
+                        "p95_e2e_ms": 4437.037
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 145,
+                        "success_rate_pct": 91.72,
+                        "mean_e2e_ms": 2836.698,
+                        "p95_e2e_ms": 4744.036
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 145,
+                        "success_rate_pct": 88.97,
+                        "mean_e2e_ms": 2623.55,
+                        "p95_e2e_ms": 4771.483
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 145,
+                        "success_rate_pct": 88.28,
+                        "mean_e2e_ms": 2581.409,
+                        "p95_e2e_ms": 4741.906
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 145,
+                        "success_rate_pct": 84.83,
+                        "mean_e2e_ms": 2579.85,
+                        "p95_e2e_ms": 4712.358
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 145,
+                        "success_rate_pct": 95.86,
+                        "mean_e2e_ms": 2700.019,
+                        "p95_e2e_ms": 4731.384
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 145,
+                        "success_rate_pct": 88.28,
+                        "mean_e2e_ms": 2648.396,
+                        "p95_e2e_ms": 4616.531
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 145,
+                        "success_rate_pct": 93.1,
+                        "mean_e2e_ms": 2554.829,
+                        "p95_e2e_ms": 4276.28
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 145,
+                        "success_rate_pct": 89.66,
+                        "mean_e2e_ms": 2472.544,
+                        "p95_e2e_ms": 4239.277
+                    }
+                ]
+            },
+            "fault": {
+                "requests": 956,
+                "success_rate_pct": 75.94,
+                "throughput_rps": 10.622,
+                "mean_e2e_ms": 5647.609,
+                "p50_e2e_ms": 5015.393,
+                "p95_e2e_ms": 12000.0,
+                "p99_e2e_ms": 12000.0,
+                "gateway_overhead_ms_mean": 20.283,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 79,
+                        "success_rate_pct": 44.3,
+                        "mean_e2e_ms": 10491.614,
+                        "p95_e2e_ms": 12000.0
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 79,
+                        "success_rate_pct": 79.75,
+                        "mean_e2e_ms": 5157.879,
+                        "p95_e2e_ms": 8757.114
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 79,
+                        "success_rate_pct": 75.95,
+                        "mean_e2e_ms": 5057.272,
+                        "p95_e2e_ms": 8619.71
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 80,
+                        "success_rate_pct": 70.0,
+                        "mean_e2e_ms": 5305.8,
+                        "p95_e2e_ms": 9302.61
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 80,
+                        "success_rate_pct": 83.75,
+                        "mean_e2e_ms": 5134.17,
+                        "p95_e2e_ms": 10482.649
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 80,
+                        "success_rate_pct": 80.0,
+                        "mean_e2e_ms": 5217.085,
+                        "p95_e2e_ms": 10349.592
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 80,
+                        "success_rate_pct": 81.25,
+                        "mean_e2e_ms": 5140.56,
+                        "p95_e2e_ms": 8565.777
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 80,
+                        "success_rate_pct": 81.25,
+                        "mean_e2e_ms": 4847.356,
+                        "p95_e2e_ms": 7544.539
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 80,
+                        "success_rate_pct": 75.0,
+                        "mean_e2e_ms": 5751.616,
+                        "p95_e2e_ms": 9326.534
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 80,
+                        "success_rate_pct": 80.0,
+                        "mean_e2e_ms": 5342.331,
+                        "p95_e2e_ms": 9551.546
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 80,
+                        "success_rate_pct": 78.75,
+                        "mean_e2e_ms": 5406.061,
+                        "p95_e2e_ms": 10861.482
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 79,
+                        "success_rate_pct": 81.01,
+                        "mean_e2e_ms": 4957.988,
+                        "p95_e2e_ms": 8559.343
+                    }
+                ]
+            },
+            "recovery": {
+                "requests": 903,
+                "success_rate_pct": 86.49,
+                "throughput_rps": 15.05,
+                "mean_e2e_ms": 3830.794,
+                "p50_e2e_ms": 3479.079,
+                "p95_e2e_ms": 7031.751,
+                "p99_e2e_ms": 9426.871,
+                "gateway_overhead_ms_mean": 17.798,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 76,
+                        "success_rate_pct": 68.42,
+                        "mean_e2e_ms": 6219.066,
+                        "p95_e2e_ms": 10387.411
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 76,
+                        "success_rate_pct": 93.42,
+                        "mean_e2e_ms": 3569.943,
+                        "p95_e2e_ms": 6085.819
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 75,
+                        "success_rate_pct": 86.67,
+                        "mean_e2e_ms": 3748.035,
+                        "p95_e2e_ms": 6530.212
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 75,
+                        "success_rate_pct": 86.67,
+                        "mean_e2e_ms": 3331.115,
+                        "p95_e2e_ms": 5499.95
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 75,
+                        "success_rate_pct": 82.67,
+                        "mean_e2e_ms": 3647.449,
+                        "p95_e2e_ms": 6135.527
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 75,
+                        "success_rate_pct": 90.67,
+                        "mean_e2e_ms": 3746.626,
+                        "p95_e2e_ms": 6476.89
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 75,
+                        "success_rate_pct": 89.33,
+                        "mean_e2e_ms": 3716.604,
+                        "p95_e2e_ms": 7611.733
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 75,
+                        "success_rate_pct": 84.0,
+                        "mean_e2e_ms": 3690.281,
+                        "p95_e2e_ms": 6735.062
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 75,
+                        "success_rate_pct": 89.33,
+                        "mean_e2e_ms": 3347.504,
+                        "p95_e2e_ms": 5919.181
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 75,
+                        "success_rate_pct": 85.33,
+                        "mean_e2e_ms": 3762.506,
+                        "p95_e2e_ms": 5711.369
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 75,
+                        "success_rate_pct": 92.0,
+                        "mean_e2e_ms": 3546.486,
+                        "p95_e2e_ms": 6037.163
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 76,
+                        "success_rate_pct": 89.47,
+                        "mean_e2e_ms": 3618.377,
+                        "p95_e2e_ms": 5921.666
+                    }
+                ]
+            },
+            "overall": {
+                "requests": 3602,
+                "success_rate_pct": 84.98,
+                "throughput_rps": 15.008,
+                "mean_e2e_ms": 3771.227,
+                "p50_e2e_ms": 3220.718,
+                "p95_e2e_ms": 8125.956,
+                "p99_e2e_ms": 12000.0,
+                "gateway_overhead_ms_mean": 17.571,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 301,
+                        "success_rate_pct": 69.1,
+                        "mean_e2e_ms": 5945.734,
+                        "p95_e2e_ms": 12000.0
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 301,
+                        "success_rate_pct": 87.04,
+                        "mean_e2e_ms": 3639.583,
+                        "p95_e2e_ms": 7315.534
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 300,
+                        "success_rate_pct": 86.0,
+                        "mean_e2e_ms": 3512.852,
+                        "p95_e2e_ms": 7037.617
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 300,
+                        "success_rate_pct": 82.67,
+                        "mean_e2e_ms": 3590.651,
+                        "p95_e2e_ms": 7372.701
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 300,
+                        "success_rate_pct": 87.33,
+                        "mean_e2e_ms": 3652.045,
+                        "p95_e2e_ms": 7636.91
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 300,
+                        "success_rate_pct": 87.0,
+                        "mean_e2e_ms": 3595.928,
+                        "p95_e2e_ms": 7392.512
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 300,
+                        "success_rate_pct": 86.67,
+                        "mean_e2e_ms": 3547.648,
+                        "p95_e2e_ms": 7626.523
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 300,
+                        "success_rate_pct": 83.67,
+                        "mean_e2e_ms": 3462.126,
+                        "p95_e2e_ms": 6482.788
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 300,
+                        "success_rate_pct": 88.67,
+                        "mean_e2e_ms": 3675.649,
+                        "p95_e2e_ms": 7522.169
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 300,
+                        "success_rate_pct": 85.33,
+                        "mean_e2e_ms": 3645.306,
+                        "p95_e2e_ms": 7124.601
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 300,
+                        "success_rate_pct": 89.0,
+                        "mean_e2e_ms": 3563.072,
+                        "p95_e2e_ms": 7520.02
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 300,
+                        "success_rate_pct": 87.33,
+                        "mean_e2e_ms": 3417.322,
+                        "p95_e2e_ms": 6632.527
+                    }
+                ]
+            }
+        },
+        "c64": {
+            "steady": {
+                "requests": 1461,
+                "success_rate_pct": 83.78,
+                "throughput_rps": 16.233,
+                "mean_e2e_ms": 4136.035,
+                "p50_e2e_ms": 3856.6,
+                "p95_e2e_ms": 6993.189,
+                "p99_e2e_ms": 8741.029,
+                "gateway_overhead_ms_mean": 23.006,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 122,
+                        "success_rate_pct": 66.39,
+                        "mean_e2e_ms": 5566.631,
+                        "p95_e2e_ms": 9015.871
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 122,
+                        "success_rate_pct": 82.79,
+                        "mean_e2e_ms": 4030.907,
+                        "p95_e2e_ms": 6461.849
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 122,
+                        "success_rate_pct": 86.89,
+                        "mean_e2e_ms": 3850.732,
+                        "p95_e2e_ms": 6459.028
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 122,
+                        "success_rate_pct": 86.07,
+                        "mean_e2e_ms": 4047.509,
+                        "p95_e2e_ms": 6635.31
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 122,
+                        "success_rate_pct": 88.52,
+                        "mean_e2e_ms": 4023.603,
+                        "p95_e2e_ms": 6585.185
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 122,
+                        "success_rate_pct": 88.52,
+                        "mean_e2e_ms": 3855.716,
+                        "p95_e2e_ms": 6311.062
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 122,
+                        "success_rate_pct": 83.61,
+                        "mean_e2e_ms": 3863.68,
+                        "p95_e2e_ms": 6122.805
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 122,
+                        "success_rate_pct": 84.43,
+                        "mean_e2e_ms": 4025.228,
+                        "p95_e2e_ms": 7129.62
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 122,
+                        "success_rate_pct": 82.79,
+                        "mean_e2e_ms": 4080.35,
+                        "p95_e2e_ms": 6382.532
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 121,
+                        "success_rate_pct": 84.3,
+                        "mean_e2e_ms": 4105.981,
+                        "p95_e2e_ms": 6087.423
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 121,
+                        "success_rate_pct": 85.12,
+                        "mean_e2e_ms": 3997.727,
+                        "p95_e2e_ms": 6383.972
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 121,
+                        "success_rate_pct": 85.95,
+                        "mean_e2e_ms": 4183.364,
+                        "p95_e2e_ms": 7521.961
+                    }
+                ]
+            },
+            "fault": {
+                "requests": 739,
+                "success_rate_pct": 68.88,
+                "throughput_rps": 8.211,
+                "mean_e2e_ms": 9164.691,
+                "p50_e2e_ms": 8560.041,
+                "p95_e2e_ms": 15000.0,
+                "p99_e2e_ms": 15000.0,
+                "gateway_overhead_ms_mean": 28.095,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 62,
+                        "success_rate_pct": 29.03,
+                        "mean_e2e_ms": 14413.074,
+                        "p95_e2e_ms": 15000.0
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 62,
+                        "success_rate_pct": 75.81,
+                        "mean_e2e_ms": 8603.39,
+                        "p95_e2e_ms": 14933.825
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 62,
+                        "success_rate_pct": 70.97,
+                        "mean_e2e_ms": 9103.072,
+                        "p95_e2e_ms": 14961.933
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 62,
+                        "success_rate_pct": 74.19,
+                        "mean_e2e_ms": 8757.722,
+                        "p95_e2e_ms": 13386.982
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 61,
+                        "success_rate_pct": 67.21,
+                        "mean_e2e_ms": 9144.26,
+                        "p95_e2e_ms": 13911.322
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 61,
+                        "success_rate_pct": 73.77,
+                        "mean_e2e_ms": 8770.974,
+                        "p95_e2e_ms": 14129.163
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 61,
+                        "success_rate_pct": 75.41,
+                        "mean_e2e_ms": 8376.244,
+                        "p95_e2e_ms": 13781.024
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 61,
+                        "success_rate_pct": 67.21,
+                        "mean_e2e_ms": 8343.972,
+                        "p95_e2e_ms": 13713.302
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 61,
+                        "success_rate_pct": 75.41,
+                        "mean_e2e_ms": 8700.725,
+                        "p95_e2e_ms": 13128.378
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 62,
+                        "success_rate_pct": 74.19,
+                        "mean_e2e_ms": 8052.012,
+                        "p95_e2e_ms": 13067.923
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 62,
+                        "success_rate_pct": 69.35,
+                        "mean_e2e_ms": 8870.782,
+                        "p95_e2e_ms": 13763.053
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 62,
+                        "success_rate_pct": 74.19,
+                        "mean_e2e_ms": 8799.948,
+                        "p95_e2e_ms": 14700.754
+                    }
+                ]
+            },
+            "recovery": {
+                "requests": 695,
+                "success_rate_pct": 77.55,
+                "throughput_rps": 11.583,
+                "mean_e2e_ms": 6475.751,
+                "p50_e2e_ms": 6166.577,
+                "p95_e2e_ms": 10982.322,
+                "p99_e2e_ms": 13972.968,
+                "gateway_overhead_ms_mean": 25.002,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 58,
+                        "success_rate_pct": 65.52,
+                        "mean_e2e_ms": 9088.639,
+                        "p95_e2e_ms": 14733.626
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 58,
+                        "success_rate_pct": 79.31,
+                        "mean_e2e_ms": 6240.997,
+                        "p95_e2e_ms": 10311.575
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 58,
+                        "success_rate_pct": 75.86,
+                        "mean_e2e_ms": 6925.281,
+                        "p95_e2e_ms": 11031.802
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 57,
+                        "success_rate_pct": 80.7,
+                        "mean_e2e_ms": 6362.752,
+                        "p95_e2e_ms": 9615.077
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 58,
+                        "success_rate_pct": 75.86,
+                        "mean_e2e_ms": 5993.57,
+                        "p95_e2e_ms": 9067.311
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 58,
+                        "success_rate_pct": 86.21,
+                        "mean_e2e_ms": 6261.456,
+                        "p95_e2e_ms": 11259.688
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 58,
+                        "success_rate_pct": 67.24,
+                        "mean_e2e_ms": 6035.987,
+                        "p95_e2e_ms": 10021.108
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 58,
+                        "success_rate_pct": 82.76,
+                        "mean_e2e_ms": 5931.053,
+                        "p95_e2e_ms": 9123.819
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 58,
+                        "success_rate_pct": 75.86,
+                        "mean_e2e_ms": 6209.639,
+                        "p95_e2e_ms": 11734.207
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 58,
+                        "success_rate_pct": 74.14,
+                        "mean_e2e_ms": 6076.581,
+                        "p95_e2e_ms": 10779.078
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 58,
+                        "success_rate_pct": 84.48,
+                        "mean_e2e_ms": 6264.906,
+                        "p95_e2e_ms": 10268.817
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 58,
+                        "success_rate_pct": 82.76,
+                        "mean_e2e_ms": 6316.199,
+                        "p95_e2e_ms": 8975.892
+                    }
+                ]
+            },
+            "overall": {
+                "requests": 2895,
+                "success_rate_pct": 78.48,
+                "throughput_rps": 12.062,
+                "mean_e2e_ms": 5981.382,
+                "p50_e2e_ms": 5218.456,
+                "p95_e2e_ms": 12653.144,
+                "p99_e2e_ms": 15000.0,
+                "gateway_overhead_ms_mean": 24.784,
+                "backend_distribution": [
+                    {
+                        "backend_id": "sp26-cs525-0605",
+                        "requests": 242,
+                        "success_rate_pct": 56.61,
+                        "mean_e2e_ms": 8677.193,
+                        "p95_e2e_ms": 15000.0
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0606",
+                        "requests": 242,
+                        "success_rate_pct": 80.17,
+                        "mean_e2e_ms": 5732.061,
+                        "p95_e2e_ms": 11262.722
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0607",
+                        "requests": 242,
+                        "success_rate_pct": 80.17,
+                        "mean_e2e_ms": 5933.248,
+                        "p95_e2e_ms": 12515.874
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0608",
+                        "requests": 241,
+                        "success_rate_pct": 81.74,
+                        "mean_e2e_ms": 5806.854,
+                        "p95_e2e_ms": 10826.103
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0609",
+                        "requests": 241,
+                        "success_rate_pct": 80.08,
+                        "mean_e2e_ms": 5793.803,
+                        "p95_e2e_ms": 11640.029
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0612",
+                        "requests": 241,
+                        "success_rate_pct": 84.23,
+                        "mean_e2e_ms": 5678.802,
+                        "p95_e2e_ms": 11061.44
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0613",
+                        "requests": 241,
+                        "success_rate_pct": 77.59,
+                        "mean_e2e_ms": 5528.66,
+                        "p95_e2e_ms": 11120.55
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0614",
+                        "requests": 241,
+                        "success_rate_pct": 79.67,
+                        "mean_e2e_ms": 5577.017,
+                        "p95_e2e_ms": 10602.341
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0615",
+                        "requests": 241,
+                        "success_rate_pct": 79.25,
+                        "mean_e2e_ms": 5762.265,
+                        "p95_e2e_ms": 11724.197
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0617",
+                        "requests": 241,
+                        "success_rate_pct": 79.25,
+                        "mean_e2e_ms": 5595.395,
+                        "p95_e2e_ms": 10668.33
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0618",
+                        "requests": 241,
+                        "success_rate_pct": 80.91,
+                        "mean_e2e_ms": 5797.004,
+                        "p95_e2e_ms": 11091.463
+                    },
+                    {
+                        "backend_id": "sp26-cs525-0619",
+                        "requests": 241,
+                        "success_rate_pct": 82.16,
+                        "mean_e2e_ms": 5884.329,
+                        "p95_e2e_ms": 10701.194
+                    }
+                ]
+            }
+        }
+    }
+}

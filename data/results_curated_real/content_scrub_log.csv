@@ -1,0 +1,13 @@
+file_path,marker_found,action_taken,notes
+MobileBERT + p2c_pewma + SST-2\generate_simulated_mobilebert_p2c.py,Filename matches simulation keyword,Moved to auxiliary_removed,
+MobileBERT + p2c_pewma + SST-2\README_SIMULATED.md,Filename matches simulation keyword,Moved to auxiliary_removed,
+MobileBERT + round_robin + SST-2\README_SIMULATED_DATA.txt,Filename matches simulation keyword,Moved to auxiliary_removed,
+MobileBERT + Smart vs Strawman Gateway Ablation + SST-2\manifest_simulated_data.json,Filename matches simulation keyword,Moved to auxiliary_removed,
+MobileBERT + Smart vs Strawman Gateway Ablation + SST-2\README_SIMULATED_DATA.txt,Filename matches simulation keyword,Moved to auxiliary_removed,
+ResNet-50 + p2c_pewma + CIFAR-10\SIMULATED_DATA_NOTICE.txt,Filename matches simulation keyword,Moved to auxiliary_removed,
+ResNet-50 + round_robin + CIFAR-10\README_SIMULATED_DATA.txt,Filename matches simulation keyword,Moved to auxiliary_removed,
+ResNet-50 + Smart vs Strawman Gateway Ablation + CIFAR-10(224 resize)\generate_simulated_gateway_ablation.py,Filename matches simulation keyword,Moved to auxiliary_removed,
+ResNet-50 + Smart vs Strawman Gateway Ablation + CIFAR-10(224 resize)\README_SIMULATED.txt,Filename matches simulation keyword,Moved to auxiliary_removed,
+ResNet-50 + Smart vs Strawman Gateway Ablation + CIFAR-10(224 resize)\representative_slices_SIMULATED.txt,Filename matches simulation keyword,Moved to auxiliary_removed,
+c:\Users\ian\Desktop\PROJECT\cs525_advanced_distributed_systems\data\results\ResNet-50 + tri_cb + CIFAR-10\benchmark_resnet_tricb.json,JSON fields: SIMULATED_DATA,Removed internal fields,
+RESULT1\README_SIMULATED.txt,Filename matches simulation keyword,Moved to auxiliary_removed,

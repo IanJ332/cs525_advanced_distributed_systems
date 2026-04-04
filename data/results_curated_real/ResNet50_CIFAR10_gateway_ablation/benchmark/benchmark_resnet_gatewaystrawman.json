@@ -1,0 +1,10 @@
+{
+    "label": "SIMULATED DATA",
+    "campaign": "Gateway Ablation G (CV / ResNet-50)",
+    "aggregation_scope": "all five concurrency runs for this gateway mode",
+    "mode": "gateway_strawman",
+    "p99_ms": 3038.297,
+    "avg_ms": 809.025,
+    "rps": 44.120833,
+    "total_requests": 54721
+}
