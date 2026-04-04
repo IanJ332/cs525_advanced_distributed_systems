@@ -1,0 +1,6 @@
+mode,concurrency,total_requests,success_rate,rps,avg_ms,p95_ms,p99_ms,
+mobilebert_round_robin,32,12600,0.9968,52.5,639.51,964.0,1689.04,
+mobilebert_round_robin,48,13560,0.994,56.5,892.53,1359.0,2736.64,
+mobilebert_round_robin,64,13950,0.991,58.125,1179.93,1836.0,4233.55,
+mobilebert_round_robin,96,14340,0.984,59.75,1783.15,2837.15,8012.93,
+mobilebert_round_robin,128,14640,0.9735,61.0,2367.96,3881.35,11761.2,

@@ -1,0 +1,10 @@
+folder_name,model,dataset,framework,experiment_type,request_level_csv_count,summary_csv_count,benchmark_json_count,figures_present,ready_for_plotting,notes
+MobileBERT_SST2_gateway_ablation,MobileBERT,SST2,gateway_ablation,gateway_architecture_analysis,10,1,2,True,True,Verified Release Candidate
+MobileBERT_SST2_p2c_pewma,MobileBERT,SST2,p2c_pewma,routing_performance,5,1,1,True,True,Verified Release Candidate
+MobileBERT_SST2_round_robin,MobileBERT,SST2,round_robin,routing_performance,5,1,1,True,True,Verified Release Candidate
+MobileBERT_SST2_tri_cb,MobileBERT,SST2,tri_cb,routing_performance,5,1,1,True,True,Verified Release Candidate
+ResNet50_CIFAR10_campaign_a_smart,ResNet50,CIFAR10,smart,campaign_a_baseline,5,1,1,True,True,Verified Release Candidate
+ResNet50_CIFAR10_gateway_ablation,ResNet50,CIFAR10,gateway_ablation,gateway_architecture_analysis,10,1,2,True,True,Verified Release Candidate
+ResNet50_CIFAR10_p2c_pewma,ResNet50,CIFAR10,p2c_pewma,routing_performance,5,1,1,True,True,Verified Release Candidate
+ResNet50_CIFAR10_round_robin,ResNet50,CIFAR10,round_robin,routing_performance,5,1,1,True,True,Verified Release Candidate
+ResNet50_CIFAR10_tri_cb,ResNet50,CIFAR10,tri_cb,routing_performance,5,1,1,True,True,Verified Release Candidate

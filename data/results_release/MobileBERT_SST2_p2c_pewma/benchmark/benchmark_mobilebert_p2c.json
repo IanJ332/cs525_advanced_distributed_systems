@@ -1,0 +1,78 @@
+{
+    "campaign_name": "Campaign NLP-A",
+    "mode": "mobilebert_p2c_pewma",
+    "model": "MobileBERT",
+    "routing_policy": "p2c_pewma",
+    "dataset": "GLUE/SST-2",
+    "inference_stack": "Triton Inference Server over HTTP",
+    "execution_mode": "CPU-only distributed inference",
+    "cluster": {
+        "scope_vms": 20,
+        "active_backends": 12,
+        "gateway_control_plane": "VM01",
+        "load_generator": "VM02",
+        "backend_nodes": [
+            "sp26-cs525-0605",
+            "sp26-cs525-0606",
+            "sp26-cs525-0607",
+            "sp26-cs525-0608",
+            "sp26-cs525-0609",
+            "sp26-cs525-0612",
+            "sp26-cs525-0613",
+            "sp26-cs525-0614",
+            "sp26-cs525-0615",
+            "sp26-cs525-0617",
+            "sp26-cs525-0618",
+            "sp26-cs525-0619"
+        ],
+        "backend_port": 8000,
+        "batch_size": 1,
+        "dynamic_batching": false,
+        "gpu_acceleration": false,
+        "os": "Ubuntu 24.04.1",
+        "per_vm_vcpu": 2,
+        "per_vm_ram_gib": 7.5
+    },
+    "input_tensor_spec": {
+        "dtype": "int32",
+        "input_ids": [
+            1,
+            128
+        ],
+        "attention_mask": [
+            1,
+            128
+        ],
+        "token_type_ids": [
+            1,
+            128
+        ]
+    },
+    "campaign_phases_sec": {
+        "steady_state": [
+            0,
+            90
+        ],
+        "gray_failure_vm05": [
+            90,
+            180
+        ],
+        "recovery": [
+            180,
+            240
+        ]
+    },
+    "failure_model_vm05": {
+        "backend_id": "sp26-cs525-0605",
+        "behavior": [
+            "slower service times",
+            "elevated timeout probability",
+            "elevated 5xx probability",
+            "gradual recovery after 180s"
+        ]
+    },
+    "p99_ms": 3728.464,
+    "avg_ms": 1039.977,
+    "rps": 71.004167,
+    "total_requests": 85205
+}
