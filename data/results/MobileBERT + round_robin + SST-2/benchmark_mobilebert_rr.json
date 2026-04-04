@@ -1,0 +1,9 @@
+{
+  "data_label": "SIMULATED DATA",
+  "mode": "mobilebert_round_robin",
+  "aggregation": "aggregate_across_all_5_campaigns",
+  "p99_ms": 5776.55,
+  "avg_ms": 1401.91,
+  "rps": 57.575,
+  "total_requests": 69090
+}

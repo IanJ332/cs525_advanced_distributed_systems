@@ -1,7 +1,0 @@
-{
-  "model": "resnet50",
-  "p99_ms": 6892.334,
-  "avg_ms": 775.85,
-  "rps": 52.7,
-  "total_requests": 63240
-}

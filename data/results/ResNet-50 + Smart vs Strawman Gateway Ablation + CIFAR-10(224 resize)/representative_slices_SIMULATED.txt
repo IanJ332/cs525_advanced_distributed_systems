@@ -1,0 +1,43 @@
+=== gateway_smart c=32 ===
+timestamp,req_id,payload_bytes,mode,backend_id,status_code,e2e_ms,gateway_overhead_ms,error_body
+1775210400.0,gs32_00000,1184972,gateway_smart,sp26-cs525-0605.cs.illinois.edu,200,443.743,7.609,
+1775210400.0,gs32_00001,1184972,gateway_smart,sp26-cs525-0606.cs.illinois.edu,200,520.341,8.65,
+1775210400.0,gs32_00002,1184972,gateway_smart,sp26-cs525-0607.cs.illinois.edu,200,476.198,8.688,
+1775210400.0,gs32_00003,1184972,gateway_smart,sp26-cs525-0608.cs.illinois.edu,200,578.275,4.11,
+1775210400.0,gs32_00004,1184972,gateway_smart,sp26-cs525-0609.cs.illinois.edu,200,495.345,3.648,
+1775210400.0,gs32_00005,1184972,gateway_smart,sp26-cs525-0612.cs.illinois.edu,200,946.185,5.491,
+1775210400.0,gs32_00006,1184972,gateway_smart,sp26-cs525-0613.cs.illinois.edu,200,688.146,3.998,
+1775210400.0,gs32_00007,1184972,gateway_smart,sp26-cs525-0614.cs.illinois.edu,200,420.317,7.267,
+
+=== gateway_strawman c=32 ===
+timestamp,req_id,payload_bytes,mode,backend_id,status_code,e2e_ms,gateway_overhead_ms,error_body
+1775212200.0,gw32_00000,1184972,gateway_strawman,sp26-cs525-0605.cs.illinois.edu,200,798.028,27.479,
+1775212200.0,gw32_00001,1184972,gateway_strawman,sp26-cs525-0606.cs.illinois.edu,200,839.547,23.826,
+1775212200.0,gw32_00002,1184972,gateway_strawman,sp26-cs525-0607.cs.illinois.edu,200,461.651,29.975,
+1775212200.0,gw32_00003,1184972,gateway_strawman,sp26-cs525-0608.cs.illinois.edu,200,581.65,35.424,
+1775212200.0,gw32_00004,1184972,gateway_strawman,sp26-cs525-0609.cs.illinois.edu,200,743.801,43.696,
+1775212200.0,gw32_00005,1184972,gateway_strawman,sp26-cs525-0612.cs.illinois.edu,200,790.453,58.229,
+1775212200.0,gw32_00006,1184972,gateway_strawman,sp26-cs525-0613.cs.illinois.edu,200,807.775,48.843,
+1775212200.0,gw32_00007,1184972,gateway_strawman,sp26-cs525-0614.cs.illinois.edu,200,444.128,37.961,
+
+=== gateway_smart c=64 ===
+timestamp,req_id,payload_bytes,mode,backend_id,status_code,e2e_ms,gateway_overhead_ms,error_body
+1775217600.0,gs64_00000,1184972,gateway_smart,sp26-cs525-0605.cs.illinois.edu,200,1452.616,14.578,
+1775217600.0,gs64_00001,1184972,gateway_smart,sp26-cs525-0606.cs.illinois.edu,200,725.943,27.161,
+1775217600.0,gs64_00002,1184972,gateway_smart,sp26-cs525-0607.cs.illinois.edu,200,612.926,11.828,
+1775217600.0,gs64_00003,1184972,gateway_smart,sp26-cs525-0608.cs.illinois.edu,200,681.739,10.784,
+1775217600.0,gs64_00004,1184972,gateway_smart,sp26-cs525-0609.cs.illinois.edu,200,2295.377,3.359,
+1775217600.0,gs64_00005,1184972,gateway_smart,sp26-cs525-0612.cs.illinois.edu,200,836.929,7.468,
+1775217600.0,gs64_00006,1184972,gateway_smart,sp26-cs525-0613.cs.illinois.edu,200,236.395,15.048,
+1775217600.0,gs64_00007,1184972,gateway_smart,sp26-cs525-0614.cs.illinois.edu,200,605.263,8.601,
+
+=== gateway_strawman c=64 ===
+timestamp,req_id,payload_bytes,mode,backend_id,status_code,e2e_ms,gateway_overhead_ms,error_body
+1775219400.0,gw64_00000,1184972,gateway_strawman,sp26-cs525-0605.cs.illinois.edu,200,1280.744,210.238,
+1775219400.0,gw64_00001,1184972,gateway_strawman,sp26-cs525-0606.cs.illinois.edu,200,2230.597,105.116,
+1775219400.0,gw64_00002,1184972,gateway_strawman,sp26-cs525-0607.cs.illinois.edu,200,996.383,103.147,
+1775219400.0,gw64_00003,1184972,gateway_strawman,sp26-cs525-0608.cs.illinois.edu,200,1346.631,75.455,
+1775219400.0,gw64_00004,1184972,gateway_strawman,sp26-cs525-0609.cs.illinois.edu,200,1517.419,81.76,
+1775219400.0,gw64_00005,1184972,gateway_strawman,sp26-cs525-0612.cs.illinois.edu,200,1186.091,77.019,
+1775219400.0,gw64_00006,1184972,gateway_strawman,sp26-cs525-0613.cs.illinois.edu,200,872.427,93.072,
+1775219400.0,gw64_00007,1184972,gateway_strawman,sp26-cs525-0614.cs.illinois.edu,200,2255.299,78.344,

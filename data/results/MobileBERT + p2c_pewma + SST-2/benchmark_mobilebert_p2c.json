@@ -1,0 +1,142 @@
+{
+  "data_label": "SIMULATED DATA",
+  "benchmark_scope": "aggregate_campaign",
+  "campaign_name": "Campaign NLP-A",
+  "mode": "mobilebert_p2c_pewma",
+  "model": "MobileBERT",
+  "routing_policy": "p2c_pewma",
+  "dataset": "GLUE/SST-2",
+  "inference_stack": "Triton Inference Server over HTTP",
+  "execution_mode": "CPU-only distributed inference",
+  "cluster": {
+    "scope_vms": 20,
+    "active_backends": 12,
+    "gateway_control_plane": "VM01",
+    "load_generator": "VM02",
+    "backend_nodes": [
+      "sp26-cs525-0605",
+      "sp26-cs525-0606",
+      "sp26-cs525-0607",
+      "sp26-cs525-0608",
+      "sp26-cs525-0609",
+      "sp26-cs525-0612",
+      "sp26-cs525-0613",
+      "sp26-cs525-0614",
+      "sp26-cs525-0615",
+      "sp26-cs525-0617",
+      "sp26-cs525-0618",
+      "sp26-cs525-0619"
+    ],
+    "backend_port": 8000,
+    "batch_size": 1,
+    "dynamic_batching": false,
+    "gpu_acceleration": false,
+    "os": "Ubuntu 24.04.1",
+    "per_vm_vcpu": 2,
+    "per_vm_ram_gib": 7.5
+  },
+  "input_tensor_spec": {
+    "dtype": "int32",
+    "input_ids": [
+      1,
+      128
+    ],
+    "attention_mask": [
+      1,
+      128
+    ],
+    "token_type_ids": [
+      1,
+      128
+    ]
+  },
+  "campaign_phases_sec": {
+    "steady_state": [
+      0,
+      90
+    ],
+    "gray_failure_vm05": [
+      90,
+      180
+    ],
+    "recovery": [
+      180,
+      240
+    ]
+  },
+  "failure_model_vm05": {
+    "backend_id": "sp26-cs525-0605",
+    "behavior": [
+      "slower service times",
+      "elevated timeout probability",
+      "elevated 5xx probability",
+      "gradual recovery after 180s"
+    ]
+  },
+  "p99_ms": 3728.464,
+  "avg_ms": 1039.977,
+  "rps": 71.004167,
+  "total_requests": 85205,
+  "per_run": [
+    {
+      "mode": "mobilebert_p2c_pewma",
+      "concurrency": 32,
+      "total_requests": 19369,
+      "success_rate": 0.997677,
+      "rps": 80.704167,
+      "avg_ms": 396.903,
+      "p95_ms": 621.802,
+      "p99_ms": 780.524,
+      "error_rate": 0.002323,
+      "avg_gateway_overhead_ms": 10.992
+    },
+    {
+      "mode": "mobilebert_p2c_pewma",
+      "concurrency": 48,
+      "total_requests": 19603,
+      "success_rate": 0.996378,
+      "rps": 81.679167,
+      "avg_ms": 588.493,
+      "p95_ms": 918.057,
+      "p99_ms": 1148.643,
+      "error_rate": 0.003622,
+      "avg_gateway_overhead_ms": 12.298
+    },
+    {
+      "mode": "mobilebert_p2c_pewma",
+      "concurrency": 64,
+      "total_requests": 18082,
+      "success_rate": 0.985787,
+      "rps": 75.341667,
+      "avg_ms": 851.227,
+      "p95_ms": 1342.975,
+      "p99_ms": 1653.814,
+      "error_rate": 0.014213,
+      "avg_gateway_overhead_ms": 14.922
+    },
+    {
+      "mode": "mobilebert_p2c_pewma",
+      "concurrency": 96,
+      "total_requests": 15469,
+      "success_rate": 0.963411,
+      "rps": 64.454167,
+      "avg_ms": 1493.527,
+      "p95_ms": 2318.47,
+      "p99_ms": 2868.832,
+      "error_rate": 0.036589,
+      "avg_gateway_overhead_ms": 18.555
+    },
+    {
+      "mode": "mobilebert_p2c_pewma",
+      "concurrency": 128,
+      "total_requests": 12682,
+      "success_rate": 0.921542,
+      "rps": 52.841667,
+      "avg_ms": 2435.905,
+      "p95_ms": 3869.524,
+      "p99_ms": 4790.982,
+      "error_rate": 0.078458,
+      "avg_gateway_overhead_ms": 21.895
+    }
+  ]
+}

@@ -1,0 +1,219 @@
+{
+  "SIMULATED_DATA": true,
+  "notice": "SIMULATED DATA \u2014 synthetically generated mock benchmark, not measured.",
+  "model": {
+    "name": "ResNet-50",
+    "precision": "FP32",
+    "triton_input_name": "data",
+    "input_shape": [
+      1,
+      3,
+      224,
+      224
+    ],
+    "batch_size": 1,
+    "dynamic_batching": false
+  },
+  "dataset": {
+    "name": "CIFAR-10 (resized to 224x224)",
+    "payload_bytes_per_request": 602112
+  },
+  "serving": {
+    "engine": "Triton Inference Server (CPU-only, distributed serving)",
+    "cluster_total_vms": 20,
+    "active_backend_nodes": [
+      "sp26-cs525-0605",
+      "sp26-cs525-0606",
+      "sp26-cs525-0607",
+      "sp26-cs525-0608",
+      "sp26-cs525-0609",
+      "sp26-cs525-0612",
+      "sp26-cs525-0613",
+      "sp26-cs525-0614",
+      "sp26-cs525-0615",
+      "sp26-cs525-0617",
+      "sp26-cs525-0618",
+      "sp26-cs525-0619"
+    ],
+    "active_backend_count": 12
+  },
+  "framework": {
+    "name": "tri_cb",
+    "semantics": {
+      "timeout_per_attempt_ms": 800,
+      "max_attempts": 2,
+      "circuit_breaker": "Enabled; tends to suppress traffic to failing nodes after repeated errors",
+      "notes": [
+        "Designed to mitigate part of the VM05 fault window via timeout+retry+circuit breaker.",
+        "May incur retry amplification at higher concurrency (c48/c64).",
+        "More reactive and less smooth than p2c_pewma; better tail than round_robin in degraded regimes."
+      ]
+    }
+  },
+  "campaign": {
+    "duration_s": 240,
+    "phases": [
+      {
+        "name": "steady",
+        "start_s": 0,
+        "end_s": 90
+      },
+      {
+        "name": "fault",
+        "start_s": 90,
+        "end_s": 180,
+        "faulty_backend": "sp26-cs525-0605"
+      },
+      {
+        "name": "recovery",
+        "start_s": 180,
+        "end_s": 240
+      }
+    ],
+    "concurrency_levels": [
+      16,
+      24,
+      32,
+      48,
+      64
+    ],
+    "no_dynamic_batching": true
+  },
+  "artifacts": {
+    "campaign_csvs": {
+      "c16": "campaign_cv_resnet_tricb_c16.csv",
+      "c24": "campaign_cv_resnet_tricb_c24.csv",
+      "c32": "campaign_cv_resnet_tricb_c32.csv",
+      "c48": "campaign_cv_resnet_tricb_c48.csv",
+      "c64": "campaign_cv_resnet_tricb_c64.csv"
+    },
+    "summary_csv": "summary_resnet_tricb.csv"
+  },
+  "results_overall": {
+    "c16": {
+      "requests": 41108,
+      "success_rate": 0.9945266128247543,
+      "offered_rps": 171.28333333333333,
+      "goodput_rps": 170.34583333333333,
+      "latency_ms": {
+        "p50": 84.0,
+        "p95": 156.0,
+        "p99": 244.0,
+        "max": 984.0,
+        "mean": 94.53172131945121
+      },
+      "gateway_overhead_ms_mean": 4.536100029191398,
+      "status_code_counts": {
+        "200": 40883,
+        "503": 121,
+        "504": 104
+      },
+      "backend_share_top3": {
+        "sp26-cs525-0614": 0.0880607181083974,
+        "sp26-cs525-0619": 0.08750121630826116,
+        "sp26-cs525-0609": 0.08747689014303785
+      },
+      "retry_or_cb_signal_rate": 0.006324802958061691
+    },
+    "c24": {
+      "requests": 45894,
+      "success_rate": 0.991197106375561,
+      "offered_rps": 191.225,
+      "goodput_rps": 189.54166666666666,
+      "latency_ms": {
+        "p50": 108.0,
+        "p95": 219.0,
+        "p99": 380.0699999999997,
+        "max": 1224.0,
+        "mean": 123.95114829825249
+      },
+      "gateway_overhead_ms_mean": 4.551510001307361,
+      "status_code_counts": {
+        "200": 45490,
+        "503": 223,
+        "504": 181
+      },
+      "backend_share_top3": {
+        "sp26-cs525-0609": 0.0898592408593716,
+        "sp26-cs525-0607": 0.08759314943129821,
+        "sp26-cs525-0618": 0.08752778140933455
+      },
+      "retry_or_cb_signal_rate": 0.008955419009020787
+    },
+    "c32": {
+      "requests": 41258,
+      "success_rate": 0.9829608803141209,
+      "offered_rps": 171.90833333333333,
+      "goodput_rps": 168.97916666666666,
+      "latency_ms": {
+        "p50": 157.0,
+        "p95": 373.15000000000146,
+        "p99": 858.0,
+        "max": 1562.0,
+        "mean": 186.48662077657667
+      },
+      "gateway_overhead_ms_mean": 4.596248000387804,
+      "status_code_counts": {
+        "200": 40555,
+        "503": 370,
+        "504": 333
+      },
+      "backend_share_top3": {
+        "sp26-cs525-0608": 0.08728004265839352,
+        "sp26-cs525-0613": 0.08711037859324253,
+        "sp26-cs525-0612": 0.08691647680449852
+      },
+      "retry_or_cb_signal_rate": 0.0170148819622861
+    },
+    "c48": {
+      "requests": 38191,
+      "success_rate": 0.9584980754628054,
+      "offered_rps": 159.12916666666666,
+      "goodput_rps": 152.525,
+      "latency_ms": {
+        "p50": 252.0,
+        "p95": 902.0,
+        "p99": 1498.0999999999985,
+        "max": 1633.0,
+        "mean": 329.9875101463696
+      },
+      "gateway_overhead_ms_mean": 5.336911837867561,
+      "status_code_counts": {
+        "200": 36606,
+        "504": 800,
+        "503": 785
+      },
+      "backend_share_top3": {
+        "sp26-cs525-0617": 0.08973318321070409,
+        "sp26-cs525-0613": 0.08947134141551674,
+        "sp26-cs525-0607": 0.08779555392631772
+      },
+      "retry_or_cb_signal_rate": 0.06457018669319997
+    },
+    "c64": {
+      "requests": 38428,
+      "success_rate": 0.9375195170188404,
+      "offered_rps": 160.11666666666667,
+      "goodput_rps": 150.1125,
+      "latency_ms": {
+        "p50": 342.0,
+        "p95": 1367.6500000000015,
+        "p99": 1626.0,
+        "max": 1634.0,
+        "mean": 458.4104819402519
+      },
+      "gateway_overhead_ms_mean": 6.381310502758406,
+      "status_code_counts": {
+        "200": 36027,
+        "504": 1502,
+        "503": 899
+      },
+      "backend_share_top3": {
+        "sp26-cs525-0608": 0.09035078588529198,
+        "sp26-cs525-0612": 0.08816487977516395,
+        "sp26-cs525-0607": 0.08720204017903611
+      },
+      "retry_or_cb_signal_rate": 0.12116165296138233
+    }
+  }
+}
