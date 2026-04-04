@@ -1,0 +1,9 @@
+{
+  "simulation_label": "SIMULATED DATA",
+  "campaign": "Gateway Ablation H (NLP / MobileBERT)",
+  "aggregation_scope": "all five concurrency runs combined",
+  "p99_ms": 12967.391,
+  "avg_ms": 2740.883,
+  "rps": 26.7733,
+  "total_requests": 32128
+}
