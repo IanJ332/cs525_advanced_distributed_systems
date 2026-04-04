@@ -1,7 +1,7 @@
-Bombardment ongoing: Concurrency=10, Duration=60s
 {
-    "p99_ms": 394.42648261034276,
-    "avg_ms": 223.81738044380484,
-    "rps": 25.5,
-    "total_requests": 1530
+  "model": "resnet50",
+  "p99_ms": 6892.334,
+  "avg_ms": 775.85,
+  "rps": 52.7,
+  "total_requests": 63240
 }
