@@ -1,0 +1,8 @@
+{
+    "campaign": "Gateway Ablation H (NLP / MobileBERT)",
+    "aggregation_scope": "all five concurrency runs combined",
+    "p99_ms": 13324.144,
+    "avg_ms": 2860.49,
+    "rps": 25.78,
+    "total_requests": 30936
+}

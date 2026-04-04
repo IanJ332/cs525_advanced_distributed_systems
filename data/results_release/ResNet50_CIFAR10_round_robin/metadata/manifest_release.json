@@ -1,0 +1,19 @@
+{
+    "experiment_name": "ResNet50_CIFAR10_round_robin",
+    "model": "ResNet50",
+    "dataset": "CIFAR10",
+    "framework_mode": "round_robin",
+    "experiment_type": "routing_performance",
+    "concurrency_levels": [
+        "16",
+        "24",
+        "32",
+        "48",
+        "64"
+    ],
+    "schema_version": "release_1.0",
+    "file_counts": {
+        "requests": 5,
+        "normalized_requests": 5
+    }
+}

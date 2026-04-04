@@ -1,0 +1,19 @@
+{
+    "experiment_name": "MobileBERT_SST2_gateway_ablation",
+    "model": "MobileBERT",
+    "dataset": "SST2",
+    "framework_mode": "gateway_ablation",
+    "experiment_type": "gateway_architecture_analysis",
+    "concurrency_levels": [
+        "128",
+        "32",
+        "48",
+        "64",
+        "96"
+    ],
+    "schema_version": "release_1.0",
+    "file_counts": {
+        "requests": 10,
+        "normalized_requests": 10
+    }
+}

@@ -1,0 +1,58 @@
+experiment_folder,figure_file,figure_type,selected_concurrency,peak_p99_time_s,phase_of_peak,recommended_for_report,notes
+MobileBERT_SST2_gateway_ablation,summary_latency_rps.png,summary,N/A,0,N/A,maybe,Scaling results for gateway_ablation
+MobileBERT_SST2_gateway_ablation,timeline_primary.png,timeline,128,179.96,fault,yes,Real-time failure impact at C=128
+MobileBERT_SST2_gateway_ablation,timeline_zoom_fault.png,timeline_zoom_fault,128,179.96,fault,yes,peak error analysis
+MobileBERT_SST2_gateway_ablation,cdf_success_latency.png,cdf,all,0,N/A,yes,Latency distribution tail analysis
+MobileBERT_SST2_gateway_ablation,backend_distribution.png,backend_distribution,128,0,N/A,maybe,Load balancing verification
+MobileBERT_SST2_p2c_pewma,summary_latency_rps.png,summary,N/A,0,N/A,yes,Scaling results for p2c_pewma
+MobileBERT_SST2_p2c_pewma,timeline_primary.png,timeline,128,141.82,fault,yes,Real-time failure impact at C=128
+MobileBERT_SST2_p2c_pewma,timeline_zoom_fault.png,timeline_zoom_fault,128,141.82,fault,yes,peak error analysis
+MobileBERT_SST2_p2c_pewma,cdf_success_latency.png,cdf,all,0,N/A,yes,Latency distribution tail analysis
+MobileBERT_SST2_p2c_pewma,backend_distribution.png,backend_distribution,128,0,N/A,maybe,Load balancing verification
+MobileBERT_SST2_round_robin,summary_latency_rps.png,summary,N/A,0,N/A,yes,Scaling results for round_robin
+MobileBERT_SST2_round_robin,timeline_primary.png,timeline,96,146.634,fault,yes,Real-time failure impact at C=96
+MobileBERT_SST2_round_robin,timeline_zoom_fault.png,timeline_zoom_fault,96,146.634,fault,yes,peak error analysis
+MobileBERT_SST2_round_robin,cdf_success_latency.png,cdf,all,0,N/A,yes,Latency distribution tail analysis
+MobileBERT_SST2_round_robin,backend_distribution.png,backend_distribution,96,0,N/A,maybe,Load balancing verification
+MobileBERT_SST2_tri_cb,summary_latency_rps.png,summary,N/A,0,N/A,yes,Scaling results for tri_cb
+MobileBERT_SST2_tri_cb,timeline_primary.png,timeline,96,171.142,fault,yes,Real-time failure impact at C=96
+MobileBERT_SST2_tri_cb,timeline_zoom_fault.png,timeline_zoom_fault,96,171.142,fault,yes,peak error analysis
+MobileBERT_SST2_tri_cb,cdf_success_latency.png,cdf,all,0,N/A,maybe,Latency distribution tail analysis
+MobileBERT_SST2_tri_cb,backend_distribution.png,backend_distribution,96,0,N/A,maybe,Load balancing verification
+ResNet50_CIFAR10_campaign_a_smart,summary_latency_rps.png,summary,N/A,0,N/A,maybe,Scaling results for smart
+ResNet50_CIFAR10_campaign_a_smart,timeline_primary.png,timeline,48,107.241,fault,maybe,Real-time failure impact at C=48
+ResNet50_CIFAR10_campaign_a_smart,timeline_zoom_fault.png,timeline_zoom_fault,48,107.241,fault,maybe,peak error analysis
+ResNet50_CIFAR10_campaign_a_smart,cdf_success_latency.png,cdf,all,0,N/A,yes,Latency distribution tail analysis
+ResNet50_CIFAR10_campaign_a_smart,backend_distribution.png,backend_distribution,48,0,N/A,maybe,Load balancing verification
+ResNet50_CIFAR10_gateway_ablation,summary_latency_rps.png,summary,N/A,0,N/A,maybe,Scaling results for gateway_ablation
+ResNet50_CIFAR10_gateway_ablation,timeline_primary.png,timeline,64,164.249,fault,yes,Real-time failure impact at C=64
+ResNet50_CIFAR10_gateway_ablation,timeline_zoom_fault.png,timeline_zoom_fault,64,164.249,fault,yes,peak error analysis
+ResNet50_CIFAR10_gateway_ablation,cdf_success_latency.png,cdf,all,0,N/A,yes,Latency distribution tail analysis
+ResNet50_CIFAR10_gateway_ablation,backend_distribution.png,backend_distribution,64,0,N/A,maybe,Load balancing verification
+ResNet50_CIFAR10_p2c_pewma,summary_latency_rps.png,summary,N/A,0,N/A,yes,Scaling results for p2c_pewma
+ResNet50_CIFAR10_p2c_pewma,timeline_primary.png,timeline,64,150.061,fault,yes,Real-time failure impact at C=64
+ResNet50_CIFAR10_p2c_pewma,timeline_zoom_fault.png,timeline_zoom_fault,64,150.061,fault,yes,peak error analysis
+ResNet50_CIFAR10_p2c_pewma,cdf_success_latency.png,cdf,all,0,N/A,maybe,Latency distribution tail analysis
+ResNet50_CIFAR10_p2c_pewma,backend_distribution.png,backend_distribution,64,0,N/A,maybe,Load balancing verification
+ResNet50_CIFAR10_round_robin,summary_latency_rps.png,summary,N/A,0,N/A,yes,Scaling results for round_robin
+ResNet50_CIFAR10_round_robin,timeline_primary.png,timeline,48,92.659,fault,yes,Real-time failure impact at C=48
+ResNet50_CIFAR10_round_robin,timeline_zoom_fault.png,timeline_zoom_fault,48,92.659,fault,yes,peak error analysis
+ResNet50_CIFAR10_round_robin,cdf_success_latency.png,cdf,all,0,N/A,yes,Latency distribution tail analysis
+ResNet50_CIFAR10_round_robin,backend_distribution.png,backend_distribution,48,0,N/A,maybe,Load balancing verification
+ResNet50_CIFAR10_tri_cb,summary_latency_rps.png,summary,N/A,0,N/A,yes,Scaling results for tri_cb
+ResNet50_CIFAR10_tri_cb,timeline_primary.png,timeline,48,99.194,fault,yes,Real-time failure impact at C=48
+ResNet50_CIFAR10_tri_cb,timeline_zoom_fault.png,timeline_zoom_fault,48,99.194,fault,yes,peak error analysis
+ResNet50_CIFAR10_tri_cb,cdf_success_latency.png,cdf,all,0,N/A,maybe,Latency distribution tail analysis
+ResNet50_CIFAR10_tri_cb,backend_distribution.png,backend_distribution,48,0,N/A,maybe,Load balancing verification
+comparisons,compare_mobilebert_sst2_routing_summary.png,comparison,N/A,0,N/A,yes,P99 Latency (ms)
+comparisons,compare_mobilebert_sst2_routing_success_rate.png,comparison,N/A,0,N/A,yes,SR (%)
+comparisons,compare_mobilebert_sst2_routing_error_rate.png,comparison,N/A,0,N/A,maybe,Error (%)
+comparisons,compare_mobilebert_sst2_gateway_ablation.png,comparison,N/A,0,N/A,maybe,P99 (ms)
+comparisons,compare_mobilebert_sst2_gateway_overhead.png,comparison,N/A,0,N/A,maybe,Overhead (ms)
+comparisons,compare_mobilebert_sst2_gateway_success_rate.png,comparison,N/A,0,N/A,maybe,SR (%)
+comparisons,compare_resnet50_cifar10_routing_summary.png,comparison,N/A,0,N/A,yes,P99 Latency (ms)
+comparisons,compare_resnet50_cifar10_routing_success_rate.png,comparison,N/A,0,N/A,yes,SR (%)
+comparisons,compare_resnet50_cifar10_routing_error_rate.png,comparison,N/A,0,N/A,maybe,Error (%)
+comparisons,compare_resnet50_cifar10_gateway_ablation.png,comparison,N/A,0,N/A,maybe,P99 (ms)
+comparisons,compare_resnet50_cifar10_gateway_overhead.png,comparison,N/A,0,N/A,maybe,Overhead (ms)
+comparisons,compare_resnet50_cifar10_gateway_success_rate.png,comparison,N/A,0,N/A,maybe,SR (%)

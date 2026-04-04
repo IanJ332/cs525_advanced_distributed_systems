@@ -1,0 +1,19 @@
+{
+    "experiment_name": "MobileBERT_SST2_round_robin",
+    "model": "MobileBERT",
+    "dataset": "SST2",
+    "framework_mode": "round_robin",
+    "experiment_type": "routing_performance",
+    "concurrency_levels": [
+        "128",
+        "32",
+        "48",
+        "64",
+        "96"
+    ],
+    "schema_version": "release_1.0",
+    "file_counts": {
+        "requests": 5,
+        "normalized_requests": 5
+    }
+}

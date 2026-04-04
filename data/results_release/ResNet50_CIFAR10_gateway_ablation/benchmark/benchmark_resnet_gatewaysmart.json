@@ -1,0 +1,9 @@
+{
+    "campaign": "Gateway Ablation G (CV / ResNet-50)",
+    "aggregation_scope": "all five concurrency runs for this gateway mode",
+    "mode": "gateway_smart",
+    "p99_ms": 2933.361,
+    "avg_ms": 766.305,
+    "rps": 47.2625,
+    "total_requests": 57760
+}
