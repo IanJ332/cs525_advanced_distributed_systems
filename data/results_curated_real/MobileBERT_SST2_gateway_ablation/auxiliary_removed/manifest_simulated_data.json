@@ -1,0 +1,68 @@
+{
+  "simulation_label": "SIMULATED DATA",
+  "campaign": "Gateway Ablation H (NLP / MobileBERT)",
+  "seed": 5252603,
+  "model": "MobileBERT",
+  "dataset_semantics": "GLUE/SST-2 style sentence classification",
+  "gateway_modes": [
+    "gateway_smart",
+    "gateway_strawman"
+  ],
+  "cluster": {
+    "overall_vm_count": 20,
+    "active_backend_count": 12,
+    "active_backends": [
+      "sp26-cs525-0605.cs.illinois.edu",
+      "sp26-cs525-0606.cs.illinois.edu",
+      "sp26-cs525-0607.cs.illinois.edu",
+      "sp26-cs525-0608.cs.illinois.edu",
+      "sp26-cs525-0609.cs.illinois.edu",
+      "sp26-cs525-0612.cs.illinois.edu",
+      "sp26-cs525-0613.cs.illinois.edu",
+      "sp26-cs525-0614.cs.illinois.edu",
+      "sp26-cs525-0615.cs.illinois.edu",
+      "sp26-cs525-0617.cs.illinois.edu",
+      "sp26-cs525-0618.cs.illinois.edu",
+      "sp26-cs525-0619.cs.illinois.edu"
+    ],
+    "gateway_control_plane": "VM01",
+    "load_generator": "VM02",
+    "backend_stack": "Triton over HTTP",
+    "cpu_only": true,
+    "batch_size": 1,
+    "dynamic_batching": false,
+    "approx_vm_resources": {
+      "vCPU": 2,
+      "RAM_GiB": 7.5,
+      "disk_GB": 32,
+      "os": "Ubuntu 24.04.1"
+    }
+  },
+  "fault_model": {
+    "degraded_backend": "sp26-cs525-0605.cs.illinois.edu",
+    "fault_window_seconds": [
+      90,
+      180
+    ],
+    "recovery_window_seconds": [
+      180,
+      240
+    ],
+    "effect": "increased service time plus elevated 5xx/timeout probability"
+  },
+  "files": [
+    "benchmark_mobilebert_gatewaysmart.json",
+    "benchmark_mobilebert_gatewaystrawman.json",
+    "campaign_nlp_mobilebert_gatewaysmart_c128.csv",
+    "campaign_nlp_mobilebert_gatewaysmart_c32.csv",
+    "campaign_nlp_mobilebert_gatewaysmart_c48.csv",
+    "campaign_nlp_mobilebert_gatewaysmart_c64.csv",
+    "campaign_nlp_mobilebert_gatewaysmart_c96.csv",
+    "campaign_nlp_mobilebert_gatewaystrawman_c128.csv",
+    "campaign_nlp_mobilebert_gatewaystrawman_c32.csv",
+    "campaign_nlp_mobilebert_gatewaystrawman_c48.csv",
+    "campaign_nlp_mobilebert_gatewaystrawman_c64.csv",
+    "campaign_nlp_mobilebert_gatewaystrawman_c96.csv",
+    "summary_mobilebert_gateway_ablation.csv"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+    "label": "SIMULATED DATA",
+    "p99_ms": 1384.3043499999992,
+    "avg_ms": 295.3793980832165,
+    "rps": 107.5375,
+    "total_requests": 25809
+}
