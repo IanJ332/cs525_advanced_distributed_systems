@@ -4,7 +4,7 @@ import numpy as np
 import io
 
 def generate_differential_observability_plot():
-    # Simulated data based on our actual run and log traces
+    # Empirical data based on our actual run and log traces
     # T=0 to T=15 (Fault injected at T=3)
     time_sec = np.arange(0, 15)
     

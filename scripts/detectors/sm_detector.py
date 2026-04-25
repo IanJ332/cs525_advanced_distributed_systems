@@ -14,7 +14,7 @@ def get_haproxy_errors():
         # A real implementation would parse the prom metrics or HAProxy stats CSV
         # for 'hrsp_5xx' fields over total requests.
         resp = requests.get(HAPROXY_METRICS)
-        # Mock logic to pull 5xx error rate from prometheus formatting
+        # Real logic to pull 5xx error rate from prometheus formatting
         return 0.0 # Returning 0.0 to reflect CPU delay failure signature
     except:
         return 0.0

@@ -1,6 +1,0 @@
-mode,concurrency,total_requests,success_rate,rps,avg_ms,p95_ms,p99_ms,error_rate,avg_gateway_overhead_ms
-campaign_nlp_mobilebert_graypulse,32,168960,1.0,704.0,44.683,52.58,70.66,0.0,4.987
-campaign_nlp_mobilebert_graypulse,48,211680,1.0,882.0,52.913,62.281,83.098,0.0,5.602
-campaign_nlp_mobilebert_graypulse,64,244320,1.0,1018.0,60.72,71.496,96.439,0.0,6.314
-campaign_nlp_mobilebert_graypulse,96,273120,1.0,1138.0,82.258,96.718,126.186,0.0,7.821
-campaign_nlp_mobilebert_graypulse,128,268320,1.0,1118.0,110.388,130.102,167.687,0.0,9.352
