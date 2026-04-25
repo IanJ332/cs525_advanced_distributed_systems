@@ -1,0 +1,37 @@
+{
+  "data_label": "SIMULATED DATA",
+  "model": "MobileBERT",
+  "dataset": "GLUE / SST-2",
+  "policy": "graypulse",
+  "inference_stack": "Triton Inference Server over HTTP",
+  "execution_mode": "CPU-only distributed inference",
+  "duration_s": 240,
+  "p99_ms": {
+    "c32": 70.66,
+    "c48": 83.098,
+    "c64": 96.439,
+    "c96": 126.186,
+    "c128": 167.687
+  },
+  "avg_ms": {
+    "c32": 44.683,
+    "c48": 52.913,
+    "c64": 60.72,
+    "c96": 82.258,
+    "c128": 110.388
+  },
+  "rps": {
+    "c32": 704.0,
+    "c48": 882.0,
+    "c64": 1018.0,
+    "c96": 1138.0,
+    "c128": 1118.0
+  },
+  "total_requests": {
+    "c32": 168960,
+    "c48": 211680,
+    "c64": 244320,
+    "c96": 273120,
+    "c128": 268320
+  }
+}

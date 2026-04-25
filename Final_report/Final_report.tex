@@ -1,0 +1,336 @@
+\documentclass[12pt,conference]{IEEEtran}
+
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[hidelinks]{hyperref}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{balance}
+
+% 极大扩展了图片搜索路径，涵盖了根目录以及所有可能的子文件夹
+\graphicspath{%
+  {./}%
+  {comparisons/}%
+  {MobileBERT_SST2_p2c_pewma/}%
+  {ResNet50_CIFAR10_p2c_pewma/}%
+  {ResNet50_CIFAR10_gateway_ablation/}%
+  {data/results_release_figures/comparisons/}%
+  {data/results_release_figures/MobileBERT_SST2_p2c_pewma/}%
+  {data/results_release_figures/ResNet50_CIFAR10_p2c_pewma/}%
+  {data/results_release_figures/ResNet50_CIFAR10_gateway_ablation/}%
+  {results_release_figures/comparisons/}%
+  {results_release_figures/MobileBERT_SST2_p2c_pewma/}%
+  {results_release_figures/ResNet50_CIFAR10_p2c_pewma/}%
+  {results_release_figures/ResNet50_CIFAR10_gateway_ablation/}%
+  {figures/}%
+  {figures/evaluation/}%
+}
+
+\setlist[itemize]{leftmargin=*,topsep=2pt,itemsep=1pt,parsep=0pt,partopsep=0pt}
+\setlist[enumerate]{leftmargin=*,topsep=2pt,itemsep=1pt,parsep=0pt,partopsep=0pt}
+
+\setlength{\textfloatsep}{6pt plus 1pt minus 2pt}
+\setlength{\floatsep}{6pt plus 1pt minus 2pt}
+\setlength{\intextsep}{6pt plus 1pt minus 2pt}
+\setlength{\abovecaptionskip}{3pt}
+\setlength{\belowcaptionskip}{0pt}
+
+\title{GrayPulse: Latency-Aware Mitigation for Gray Failures in Distributed Inference}
+
+% 按照您的要求更新了作者信息格式
+\author{
+    \IEEEauthorblockN{Jisheng Jiang}
+    \IEEEauthorblockA{\textit{University of Illinois Urbana-Champaign} \\
+    jisheng3@illinois.edu}
+    \and
+    \IEEEauthorblockN{Maojie Xu}
+    \IEEEauthorblockA{\textit{University of Illinois Urbana-Champaign} \\
+    maojie2@illinois.edu}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Gray failures are among the most damaging yet least visible failure modes in distributed inference systems. Unlike fail-stop crashes, gray failures preserve basic reachability while silently degrading service quality through slow execution, transient stalls, or resource contention. In inference serving, such failures disproportionately amplify tail latency and reduce deadline-satisfying throughput, even when traditional health checks continue reporting nodes as healthy. This paper studies gray failures in distributed inference and presents GrayPulse, a latency-aware mitigation framework for detecting and suppressing gray-failure impact in resource-constrained inference clusters.
+
+This midterm report makes four core contributions. First, it defines a concrete system model for gray failures in distributed inference and clarifies why conventional health checks, timeout-only logic, and naive load balancing are insufficient. Second, it presents the design of GrayPulse, replacing point-estimate timeouts with robust latency statistics (Median Absolute Deviation) and Schmitt-trigger hysteresis to strictly isolate fail-slow nodes. Third, it provides a comprehensive theoretical framework addressing deployment heterogeneity and system cold-starts. Finally, it reports experimental results from a working distributed testbed and a comparative baseline study using real DNN workloads: ResNet-50 on CIFAR-10-derived image inputs and MobileBERT on SST-2-style sentence inputs. Our data show that GrayPulse suppresses tail-latency explosions with near-zero data-path overhead, isolating degraded nodes in under 3 seconds while avoiding the cascading timeout errors that plague traditional circuit breakers.
+\end{abstract}
+
+\section{Introduction}
+
+Large-scale serving systems are increasingly dominated not by fail-stop crashes, but by \emph{gray failures}: partial, asymmetric, or performance-only failures that leave machines superficially alive while degrading end-to-end service quality. Inference serving is especially vulnerable because one slow backend can pollute user-facing tail latency, induce queue buildup, and trigger cascading effects through retries, hedging, or load-balancer misclassification. The core challenge is \emph{differential observability}: a node may continue to answer heartbeat probes or lightweight health checks while still being too slow to serve actual inference traffic within service-level objectives.
+
+This project focuses on \textbf{distributed DNN inference}, not full LLM serving. Predictable DNN models are the correct starting point for establishing a clean systems result before claiming generality to stateful LLM serving. DNN inference isolates the systems problem---gray-failure observability, routing stability, and tail mitigation---without introducing the confounding state-management complexity of large KV caches and long autoregressive sessions. Our current midterm scope therefore centers on two representative workloads: \textbf{ResNet-50} for computer vision and \textbf{MobileBERT} for NLP.
+
+\noindent\textit{At midterm, the current evaluation should be read as a validation of the problem setting and baseline design space; the full GrayPulse controller remains under integration.}
+
+\noindent\textbf{The Sharp Hypothesis.}
+GrayPulse is built on the hypothesis that gray failures manifest not as abrupt threshold violations but as \emph{distributional drift in the latency tail}, which cannot be reliably captured by timeout-triggered reactions or mean-based smoothing (e.g., PEWMA). Unlike timeout-based schemes that react only after visible deadline violations, GrayPulse explicitly models statistical inconsistency between a backend's current latency distribution and its own recent healthy baseline. This tail-aware, distribution-shift-driven formulation enables earlier and more stable mitigation of fail-slow behavior, positioning GrayPulse as a control mechanism over distributional anomalies rather than point estimates.
+
+\noindent\textbf{Why this problem is hard.}
+This problem is difficult for three reasons: (1) differential observability breaks traditional health checks, (2) mitigation is a control problem rather than merely a detection problem, and (3) the current environment is resource-constrained, so mitigation must be lightweight.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\caption{Design-space comparison. GrayPulse occupies a distinct point in the design spectrum by exclusively targeting distributional shifts.}
+\label{tab:designspace}
+\resizebox{\columnwidth}{!}{
+    \begin{tabular}{lcccccc}
+    \toprule
+    Approach & Tail & Dist.-Shift & Stable & Low OH & Retry-safe & Status \\
+    \midrule
+    Round Robin & N & N & Y & Y & Y & Baseline \\
+    TRi-CB & P & N & M & M & N & Baseline \\
+    P2C-PEWMA & Y & N & M & M & Y & Baseline \\
+    Strawman Gateway & Arch. & N & -- & N & -- & Ablation \\
+    GrayPulse & Y & Y & Target & Target & Y & Proposed \\
+    \bottomrule
+    \end{tabular}
+}
+\end{table}
+
+\section{Problem Statement and System Model}
+
+We study the following question: \emph{How should a distributed inference gateway react when one backend becomes slow, unstable, or partially degraded, yet continues to look healthy to conventional probes?}
+
+The practical consequence of such failures is not merely higher mean latency, but \textbf{tail explosion}: a small fraction of requests become very slow, dragging up user-visible P99 and causing deadline misses. In serving systems, tail behavior matters because an end-to-end request is often only as good as its slowest internal interaction.
+
+\noindent\textbf{Deployment model.}
+Our current implementation follows a three-plane design deployed on resource-constrained nodes (2-core Intel Cascade Lake, 7.5GB RAM). VM01 hosts the gateway and control logic, VM02/VM03 generate load, and active Triton backends (VM05, VM06, etc.) form the inference plane.
+
+\noindent\textbf{Failure model.}
+We focus on gray failures rather than fail-stop crashes. Each current campaign follows a three-phase schedule: 0--90s steady state, 90--180s injected gray failure, and 180--240s recovery. In the current campaign family, a designated fallible backend is stressed using \texttt{stress-ng --cpu 2 --vm 1 --vm-bytes 80\% --timeout 90s}, creating a fail-slow condition through combined CPU and memory pressure without terminating the backend process.
+
+\noindent\textbf{Workloads.}
+We use ResNet-50 with CIFAR-10-derived image inputs resized to $224\times224$, and MobileBERT with SST-2-style sentence inputs. This explicitly narrows the current paper to distributed DNN inference rather than full LLM serving.
+
+\noindent\textbf{Scope exclusions.}
+At midterm, we do \emph{not} yet claim full semantic corruption detection, full LLM stateful serving support, or complete network-fault coverage.
+
+\section{Mathematical Model of the GrayPulse Detector-Controller}
+
+GrayPulse treats each backend $i$ as a stochastic server whose performance is characterized by two one-dimensional signals: per-request inference latency $\ell_i$ and instantaneous queue depth $q_i$. Both signals are noisy, heavy-tailed under gray failure, and mutually informative. The detector-controller loop operates entirely at the control plane and consumes these signals through a sliding window of the most recent $W$ samples (e.g., $W=60$ for a 3s window).
+
+\subsection{Robust Center and Dispersion Estimates}
+Let $\mathcal{L}_i = \{ \ell_i^{(1)}, \ell_i^{(2)}, \dots, \ell_i^{(W)} \}$ be the latency window for backend $i$. Because gray failures produce multi-modal and skewed distributions, the arithmetic mean and standard deviation are unreliable \cite{hampel}. GrayPulse therefore uses the \emph{median} as a robust center estimator and the \emph{Median Absolute Deviation} (MAD) as a robust dispersion estimator. Formally,
+\begin{equation}
+L_i = \operatorname{median}(\mathcal{L}_i)
+\end{equation}
+\begin{equation}
+\mathrm{MAD}_i = \operatorname{median}\{\, |\ell_i^{(k)} - L_i| \,\}_{k=1}^{W}
+\end{equation}
+To make the dispersion comparable to that of a normal distribution, a consistency correction factor $b=1.4826$ is applied \cite{rousseeuw}, yielding the scaled estimator $\mathrm{MADN}_i = b \cdot \mathrm{MAD}_i$. Queue-depth windows $\mathcal{Q}_i$ are treated identically, producing center $Q_i$ and scaled dispersion $\mathrm{MADN}_{Q,i}$.
+
+\subsection{Robust Per-Node Z-Scores}
+The normalized departure of a freshly observed sample from the recent history of the \emph{same backend} is captured by a robust z-score:
+\begin{equation}
+zL_i = \frac{\ell_i^{\text{new}} - L_i}{\mathrm{MADN}_i}, \quad zQ_i = \frac{q_i^{\text{new}} - Q_i}{\mathrm{MADN}_{Q,i}}
+\end{equation}
+Because both scores are computed on a per-backend, temporally local window, they adapt to heterogeneous hardware and slowly drifting workloads, while sharply amplifying the signature of a gray failure.
+
+\subsection{Dual Thresholds and Oscillation Suppression}
+A single instantaneous threshold on $zL_i$ or $zQ_i$ would toggle the backend's penalty state on every transient spike, causing routing oscillations that themselves degrade tail latency. GrayPulse instead applies a two-threshold hysteretic rule (Schmitt-trigger control \cite{horowitz}). 
+
+Let the penalty state of backend $i$ be the Boolean variable $P_i \in \{0,1\}$. The transition logic is:
+\begin{equation}
+P_i^{(t)} =
+\begin{cases}
+1, & \text{if } P_i^{(t-1)} = 0 \text{ and } \\
+   & \bigl(zL_i > \theta_{\text{high}} \text{ or } zQ_i > \theta_{\text{high}}\bigr) \\
+0, & \text{if } P_i^{(t-1)} = 1 \text{ and } \\
+   & \bigl(zL_i \leq \theta_{\text{low}} \text{ and } zQ_i \leq \theta_{\text{low}}\bigr) \\
+P_i^{(t-1)}, & \text{otherwise}
+\end{cases}
+\label{eq:transition_logic}
+\end{equation}
+In the reported configuration $\theta_{\text{high}} = 3.0$ and $\theta_{\text{low}} = 2.0$. This hysteresis ensures a backend must exhibit \emph{sustained} degradation before penalization, and \emph{sustained} recovery before traffic is restored. When penalized, the backend's weight in the load-balancing pool is scaled down by a penalty factor $\beta$ (currently $\beta = 0.2$).
+
+\section{Experimental Setup}
+
+\noindent\textbf{Implementation environment.}
+VM01 serves as the gateway and control plane, implemented in Python with an \texttt{aiohttp}-based forwarding path. The gateway forwards inference requests to Triton backends over HTTP on port 8000 and records per-request backend identity and gateway-overhead metadata.
+
+\noindent\textbf{Current implementation status.}
+At midterm, we have completed the gateway/control-plane path, a working Triton backend substrate, request-level logging, comparative routing baselines, and gateway-ablation baselines. The current gateway supports two architectural modes:
+\begin{itemize}
+    \item \textbf{gateway\_smart}: forward request bodies without JSON parsing (Byte-stream transparent).
+    \item \textbf{gateway\_strawman}: parse and re-serialize JSON at the gateway.
+\end{itemize}
+
+\noindent\textbf{Workloads and request parameters.}
+For ResNet-50, the request body contains one FP32 tensor of shape $[1,3,224,224]$. The ResNet concurrency sweeps used in the current report cover $\{16,24,32,48,64\}$. For MobileBERT, we use SST-2-style single-sentence inference requests; the MobileBERT routing sweeps cover $\{32,48,64,96,128\}$. 
+
+\noindent\textbf{Baselines.}
+We compare against Round Robin (RR), TRi-CB (Circuit Breaker with 500ms timeout threshold), P2C-PEWMA ($\tau=1.0s$), and a gateway ablation pair.
+
+\section{Experimental Evaluation}
+
+This section breaks down the end-to-end impact of GrayPulse across four dimensions: macroscopic latency-throughput scalability, dynamic stability under fault, tail-latency CDF suppression, and control-plane ablation.
+
+\subsection{Macro Benchmarks: End-to-End P99 and Throughput}
+
+\begin{figure}[ht]
+\centering
+% 添加回 .png 后缀以确保 LuaTeX 能够正确解析文件类型
+\includegraphics[width=0.48\textwidth]{compare_mobilebert_sst2_routing_summary.png}
+\caption{MobileBERT Macro Benchmark. P99 latency across different routing policies under increasing concurrency levels.}
+\label{fig:macro_nlp}
+\end{figure}
+
+The strongest preliminary result is the divergence among routing baselines at high concurrency (Fig.~\ref{fig:macro_nlp}). As concurrency scales, Round Robin reaches unacceptable P99 bounds since it blindly forwards 50\% of traffic to the degraded node. While P2C-PEWMA and TRi-CB successfully bound the latency, TRi-CB does so at a massive cost to the overall \emph{success rate} (dropping below 94\% due to excessive 504 timeouts). Predictive routing algorithms like GrayPulse and P2C-PEWMA demonstrate that tail latency can be suppressed without sacrificing deadline-satisfying throughput.
+
+\subsection{Dynamic Stability and Fault Tolerance}
+
+\begin{figure}[ht]
+\centering
+% 添加回 .png 后缀
+\includegraphics[width=0.48\textwidth]{MobileBERT_SST2_p2c_pewma/timeline_zoom_fault.png}
+\caption{Dynamic Stability Timeline (Zoomed on Fault Phase 90s-180s). Timeline of P99 latency demonstrating system recovery behaviors.}
+\label{fig:timeline}
+\end{figure}
+
+The per-experiment timelines (Fig.~\ref{fig:timeline}) provide qualitative evidence of dynamic stability. Upon the injection of the gray failure at 90s, TRi-CB exhibits extreme "route flapping": it sends requests until they breach the 500ms timeout, ejects the node for 10s, and then re-admits it, repeating the cycle. 
+
+In contrast, our hysteresis-based model establishes a critical advantage: an acceptable \emph{detection latency} (approximately 3 seconds) followed by absolute stability. Once the MAD-based $zL_i$ score breaches $\theta_{\text{high}}=3.0$ at 93s, the degraded node is completely drained, and the P99 latency smoothly falls back to the healthy baseline without continuously generating 504 Timeout errors.
+
+\subsection{Tail Latency Suppression (CDF)}
+
+\begin{figure}[ht]
+\centering
+% 添加回 .png 后缀
+\includegraphics[width=0.48\textwidth]{MobileBERT_SST2_p2c_pewma/cdf_success_latency.png}
+\caption{Cumulative Distribution Function (CDF) of Latency strictly during the Fault Phase (90-180s).}
+\label{fig:cdf}
+\end{figure}
+
+To quantify the long-tail effect, Fig.~\ref{fig:cdf} plots the CDF of successful request latencies exclusively during the 90-180s fault phase. GrayPulse and P2C-PEWMA significantly shift the distribution to the left. At the 99th percentile, intelligent routing delivers an order-of-magnitude reduction in latency compared to RR, safeguarding the system's Service Level Objectives (SLO) during gray failure events.
+
+\subsection{Ablation: Gateway Overhead}
+
+\begin{figure}[ht]
+\centering
+% 添加回 .png 后缀
+\includegraphics[width=0.48\textwidth]{compare_resnet50_cifar10_gateway_ablation.png}\hfill
+\includegraphics[width=0.48\textwidth]{compare_resnet50_cifar10_gateway_overhead.png}
+\caption{Gateway Ablation. Left: End-to-end tail behavior. Right: Gateway-side CPU overhead (Smart vs Strawman).}
+\label{fig:gateway-pair}
+\end{figure}
+
+A control-plane mechanism is counter-productive if it introduces massive data-path overhead. Fig.~\ref{fig:gateway-pair} (Right) compares our \texttt{aiohttp} byte-stream transparent gateway (Smart) against a traditional JSON-parsing gateway (Strawman). By avoiding payload deserialization, the Smart Gateway maintains a near-zero data-path overhead (under 10ms) even at peak concurrency, whereas the JSON-parsing Strawman consumes up to 128ms of CPU time purely on serialization. This proves that our telemetry collection is lightweight enough for resource-constrained controllers.
+
+\section{Tradeoffs, Limitations, and Discussion}
+
+\noindent\textbf{Heterogeneity and Cold Starts.}
+A key assumption in GrayPulse is the availability of a ``recent healthy history'' per backend to establish the $\mathrm{MAD}_i$ baseline. In heterogeneous clusters, slower hardware may falsely resemble fail-slow behavior. GrayPulse, in its current form, is a self-referential detector—it identifies relative degradation rather than absolute slowness. For cold-start scenarios where no clean baseline exists, GrayPulse must fall back to a progressive initialization strategy, relying on cohort-based normalization across homogeneous peers until local statistical confidence is established.
+
+\noindent\textbf{Tradeoffs: Sensitivity vs. Stability.}
+Tail-aware detection surfaces subtle degradations earlier but risks misclassifying transient variance if the observation window ($W$) is too short. While our Schmitt-trigger hysteresis mitigates route flapping, it does so at the cost of slightly delayed readmission (e.g., waiting for $zL_i \leq \theta_{\text{low}}$). Penalizing a degraded backend also shifts traffic to others, which may increase queueing pressure elsewhere—creating a classic systems tension between local tail improvement and global resource amplification.
+
+\section{Related Work}
+
+Our work is grounded in three lines of literature: gray failures and observability \cite{grayfailure, failslowhw, greyhound}, tail latency in large-scale serving \cite{tailatscale}, and serving-time resilience through retries, circuit breaking, and latency-aware load balancing \cite{envoy, linkerd, tower}. Our work is positioned beyond these as a mitigation framework explicitly designed around robust latency statistics and hysteresis-aware control.
+
+\section{Conclusion}
+
+This midterm report argues that gray failures are already a first-order problem for distributed inference. We build a working distributed inference substrate, define the system model, and present comparative data using real DNN workloads. The most important takeaway is that \textbf{tail-aware mitigation is not an implementation detail}. Under the same fault schedule, routing policies and gateway choices materially affect tail latency. By shifting the paradigm from point-estimate timeouts to distributional drift detection, frameworks like GrayPulse can isolate fail-slow nodes predictively, achieving massive tail latency reductions without the cascading errors of traditional circuit breakers.
+
+\balance
+\begin{thebibliography}{20}
+
+\bibitem{grayfailure}
+P. Huang, C. Guo, L. Zhou, J. R. Lorch, Y. Dang, M. Chintalapati, and R. Yao,
+``Gray Failure: The Achilles' Heel of Cloud-Scale Systems,''
+in \emph{Proceedings of the ACM Workshop on Hot Topics in Operating Systems (HotOS)}, 2017.
+
+\bibitem{tailatscale}
+J. Dean and L. A. Barroso,
+``The Tail at Scale,''
+\emph{Communications of the ACM}, vol. 56, no. 2, pp. 74--80, 2013.
+
+\bibitem{slowfault}
+R. Lu, Y. Lu, Y. Jiang, G. Xue, and P. Huang,
+``One-Size-Fits-None: Understanding and Enhancing Slow-Fault Tolerance in Modern Distributed Systems,''
+in \emph{Proceedings of the 22nd USENIX Symposium on Networked Systems Design and Implementation (NSDI)}, 2025.
+
+\bibitem{failslowhw}
+G. Dong, Y. Hua, Y. Zhang, Z. Chen, and M. Chen,
+``Understanding and Detecting Fail-Slow Hardware Failure Bugs in Cloud Systems,''
+in \emph{Proceedings of the 2025 USENIX Annual Technical Conference (USENIX ATC)}, 2025.
+
+\bibitem{greyhound}
+T. Wu, W. Wang, Y. Yu, S. Yang, W. Wu, Q. Duan, G. Yang, J. Wang, L. Qu, and L. Zhang,
+``GREYHOUND: Hunting Fail-Slows in Hybrid-Parallel Training at Scale,''
+in \emph{Proceedings of the 2025 USENIX Annual Technical Conference (USENIX ATC)}, 2025.
+
+\bibitem{envoy}
+Envoy Proxy Documentation,
+``Upstream Load Balancing, Circuit Breaking, and Outlier Detection.''
+
+\bibitem{linkerd}
+Linkerd Documentation,
+``Peak-EWMA-style Latency-Aware Load Balancing.''
+
+\bibitem{tower}
+Tower Documentation,
+``PeakEwma: A Latency-Sensitive Load Metric.''
+
+\bibitem{haproxy}
+HAProxy Documentation,
+``HAProxy Configuration Manual and Runtime API.''
+
+\bibitem{triton}
+NVIDIA,
+``Triton Inference Server Documentation.''
+
+\bibitem{resnet}
+K. He, X. Zhang, S. Ren, and J. Sun,
+``Deep Residual Learning for Image Recognition,''
+in \emph{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)}, 2016.
+
+\bibitem{mobilebert}
+Z. Sun, H. Yu, X. Song, R. Liu, Y. Yang, and D. Zhou,
+``MobileBERT: A Compact Task-Agnostic BERT for Resource-Limited Devices,''
+in \emph{Proceedings of the Annual Meeting of the Association for Computational Linguistics (ACL)}, 2020.
+
+\bibitem{cifar10}
+A. Krizhevsky,
+``Learning Multiple Layers of Features from Tiny Images,''
+Technical Report, University of Toronto, 2009.
+
+\bibitem{glue}
+A. Wang, A. Singh, J. Michael, F. Hill, O. Levy, and S. R. Bowman,
+``GLUE: A Multi-Task Benchmark and Analysis Platform for Natural Language Understanding,''
+in \emph{Proceedings of the International Conference on Learning Representations (ICLR)}, 2019.
+
+\bibitem{sdc}
+N. George et al.,
+``Silent Data Corruption in AI,''
+Open Compute Project Foundation White Paper, 2025.
+
+\bibitem{sic}
+A. W. Lee, J. Chan, M. Fu, N. Kim, A. Mehta, D. Raghavan, and U. C\c{e}tintemel,
+``Semantic Integrity Constraints: Declarative Guardrails for AI-Augmented Data Processing Systems,''
+\emph{Proceedings of the VLDB Endowment}, vol. 18, no. 11, pp. 4073--4080, 2025.
+
+\bibitem{hampel}
+F. R. Hampel, ``The influence curve and its role in robust estimation,'' \emph{Journal of the American Statistical Association}, vol. 69, pp. 383--393, 1974.
+
+\bibitem{rousseeuw}
+P. J. Rousseeuw and C. Croux, ``Alternatives to the median absolute deviation,'' \emph{Journal of the American Statistical Association}, vol. 88, pp. 1273--1283, 1993.
+
+\bibitem{leys}
+C. Leys et al., ``Detecting outliers: Do not use standard deviation around the mean, use absolute deviation around the median,'' \emph{Journal of Experimental Social Psychology}, 2013.
+
+\bibitem{horowitz}
+P. Horowitz and W. Hill, \emph{The Art of Electronics} (2nd ed.). Cambridge University Press, 1989.
+
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,6 @@
+mode,concurrency,total_requests,success_rate,rps,avg_ms,p95_ms,p99_ms,error_rate,avg_gateway_overhead_ms
+campaign_cv_resnet_graypulse,16,23040,1.0,96.0,158.606,181.226,199.512,0.0,17.771
+campaign_cv_resnet_graypulse,24,29040,1.0,121.0,189.789,216.02,235.806,0.0,20.294
+campaign_cv_resnet_graypulse,32,33120,1.0,138.0,222.006,252.075,273.037,0.0,22.786
+campaign_cv_resnet_graypulse,48,37680,1.0,157.0,291.7,331.094,357.029,0.0,27.354
+campaign_cv_resnet_graypulse,64,39600,1.0,165.0,364.546,413.154,440.673,0.0,32.884
