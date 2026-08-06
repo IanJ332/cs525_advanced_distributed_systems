@@ -8,7 +8,11 @@ BACKENDS = [
     f"sp26-cs525-06{i:02d}.cs.illinois.edu" for i in [5, 6, 7, 8, 9, 12, 13, 14, 15, 17, 18, 19]
 ]
 USERNAME = "jisheng3"
-PASSWORD = "[REDACTED_SECRET]"
+PASSWORD = os.environ.get("CLUSTER_PASSWORD")
+if not PASSWORD:
+    raise RuntimeError(
+        "CLUSTER_PASSWORD environment variable is required; configure it in your local environment."
+    )
 
 def check_backend(node):
     client = paramiko.SSHClient()

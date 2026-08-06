@@ -7,7 +7,11 @@ GW_NODE = "sp26-cs525-0601.cs.illinois.edu"
 LOAD_NODE = "sp26-cs525-0602.cs.illinois.edu"
 WORKER_FALLIBLE = "sp26-cs525-0605.cs.illinois.edu"
 USERNAME = "jisheng3"
-PASSWORD = "[REDACTED_SECRET]"
+PASSWORD = os.environ.get("CLUSTER_PASSWORD")
+if not PASSWORD:
+    raise RuntimeError(
+        "CLUSTER_PASSWORD environment variable is required; configure it in your local environment."
+    )
 
 def remote_cmd(host, cmd, get_pty=False):
     client = paramiko.SSHClient()

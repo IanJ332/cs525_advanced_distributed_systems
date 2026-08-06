@@ -3,7 +3,11 @@ import sys
 
 NODE = "sp26-cs525-0601.cs.illinois.edu"
 USERNAME = "jisheng3"
-PASSWORD = "[REDACTED_SECRET]"
+PASSWORD = os.environ.get("CLUSTER_PASSWORD")
+if not PASSWORD:
+    raise RuntimeError(
+        "CLUSTER_PASSWORD environment variable is required; configure it in your local environment."
+    )
 
 def check_triton():
     print(f"Connecting to {NODE} to check Triton status...")

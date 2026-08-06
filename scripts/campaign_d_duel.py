@@ -6,7 +6,11 @@ import time
 GW_NODE = "sp26-cs525-0601.cs.illinois.edu"
 LOAD_NODE = "sp26-cs525-0602.cs.illinois.edu"
 USERNAME = "jisheng3"
-PASSWORD = "[REDACTED_SECRET]"
+PASSWORD = os.environ.get("CLUSTER_PASSWORD")
+if not PASSWORD:
+    raise RuntimeError(
+        "CLUSTER_PASSWORD environment variable is required; configure it in your local environment."
+    )
 
 def execute_remote(host, cmd, get_output=True):
     client = paramiko.SSHClient()

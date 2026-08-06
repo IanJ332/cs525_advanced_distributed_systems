@@ -12,12 +12,20 @@ try:
     USER = getattr(config, 'USER', 'jisheng3')
     BASE_URL = getattr(config, 'BASE_URL', 'sp26-cs525-06')
     DOMAIN = getattr(config, 'DOMAIN', '.cs.illinois.edu')
-    PASSWORD = getattr(config, 'PASSWORD', '[REDACTED_SECRET]')
+    PASSWORD = os.environ.get("CLUSTER_PASSWORD")
+if not PASSWORD:
+    raise RuntimeError(
+        "CLUSTER_PASSWORD environment variable is required; configure it in your local environment."
+    )
 except ImportError:
     USER = "jisheng3"
     BASE_URL = "sp26-cs525-06"
     DOMAIN = ".cs.illinois.edu"
-    PASSWORD = "[REDACTED_SECRET]"
+    PASSWORD = os.environ.get("CLUSTER_PASSWORD")
+if not PASSWORD:
+    raise RuntimeError(
+        "CLUSTER_PASSWORD environment variable is required; configure it in your local environment."
+    )
 
 # Define the targets: sp26-cs525-0601 through sp26-cs525-0620
 HOSTNAME_LIST = [f"{BASE_URL}{i:02d}{DOMAIN}" for i in range(1, 21)]

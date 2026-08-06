@@ -14,7 +14,11 @@ BACKENDS = [
 ]
 
 USERNAME = "jisheng3"
-PASSWORD = "[REDACTED_SECRET]"
+PASSWORD = os.environ.get("CLUSTER_PASSWORD")
+if not PASSWORD:
+    raise RuntimeError(
+        "CLUSTER_PASSWORD environment variable is required; configure it in your local environment."
+    )
 
 def check_load_node(node_name, host):
     client = paramiko.SSHClient()

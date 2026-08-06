@@ -5,7 +5,11 @@ import concurrent.futures
 
 NODES = [f"sp26-cs525-06{i:02d}.cs.illinois.edu" for i in range(4, 21)]
 USERNAME = "jisheng3"
-PASSWORD = "[REDACTED_SECRET]"
+PASSWORD = os.environ.get("CLUSTER_PASSWORD")
+if not PASSWORD:
+    raise RuntimeError(
+        "CLUSTER_PASSWORD environment variable is required; configure it in your local environment."
+    )
 
 def deploy_node(node):
     client = paramiko.SSHClient()

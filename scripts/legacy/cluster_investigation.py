@@ -4,7 +4,11 @@ import json
 
 NODES = ["sp26-cs525-0605.cs.illinois.edu", "sp26-cs525-0606.cs.illinois.edu"]
 USERNAME = "jisheng3"
-PASSWORD = "[REDACTED_SECRET]"
+PASSWORD = os.environ.get("CLUSTER_PASSWORD")
+if not PASSWORD:
+    raise RuntimeError(
+        "CLUSTER_PASSWORD environment variable is required; configure it in your local environment."
+    )
 
 def run_command(client, command):
     stdin, stdout, stderr = client.exec_command(command)
