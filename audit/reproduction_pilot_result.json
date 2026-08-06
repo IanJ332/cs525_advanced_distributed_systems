@@ -1,0 +1,28 @@
+{
+  "pilot_target": "Figure 3 & Figure 7 \u2014 MobileBERT/SST-2 Concurrency 128 GrayPulse P99 Latency",
+  "command": "python scratch/reproduction_pilot.py",
+  "environment": {
+    "python_version": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "pandas_version": "3.0.1",
+    "numpy_version": "2.4.4",
+    "os": "win32"
+  },
+  "input_dataset": {
+    "path": "data/results/MobileBERT_SST2_greypulse/campaign_nlp_mobilebert_graypulse_c128.csv",
+    "sha256": "f22324bbc57ccccd7dbc2de5c1ba98e0de548cae33854055a9e0f8f950e348b4",
+    "byte_size": 26621337,
+    "total_rows": 268320
+  },
+  "metrics": {
+    "total_requests": 268320,
+    "success_count": 268320,
+    "success_rate": 1.0,
+    "reproduced_p99_ms": 167.6874499999999,
+    "reproduced_p95_ms": 130.102,
+    "reproduced_avg_ms": 110.38828356067381,
+    "reported_paper_p99_ms": 167.687,
+    "percentage_difference": 0.0002683571176579226
+  },
+  "status": "REPRODUCED",
+  "warnings": []
+}
